@@ -36,5 +36,5 @@ export default function SidebarCom() {
 }
 
 function PropertyWidget({property_id,title}){
-  return <NavLink to={`/chat?property_id=${property_id}`}  className="block text-white py-3 bg-blue-900 rounded-lg font-semibold my-3 mx-2 pl-2 hover:bg-blue-950 hover:cursor-pointer "  >{title}</NavLink>
+  return <NavLink to={`?property_id=${property_id}`}  className="block text-white py-3 bg-blue-900 rounded-lg font-semibold my-3 mx-2 pl-2 hover:bg-blue-950 hover:cursor-pointer "  >{title}</NavLink>
 }

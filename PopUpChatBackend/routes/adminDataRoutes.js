@@ -14,6 +14,12 @@ import cors from "cors";
 
 
 adminDataRoutes.post("/getalldata",async (req,res)=>{
-    const data =await getAllData(req.body.Email);
+    let data;
+    try {
+        data =await getAllData(req.body.Email);
+    } catch (error) {
+        console.log(error);
+    }
+    
     res.json(data);
 })

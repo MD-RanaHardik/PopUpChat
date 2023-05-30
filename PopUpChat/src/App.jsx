@@ -11,6 +11,9 @@ import HomePage from "./AdminPanel/Page/HomePage";
 import ChangePasswordPage from "./AuthenticationSystem/Pages/ChangePasswordPage";
 import LayoutPage from "./AdminPanel/Page/LayoutPage";
 import ChatPage from "./AdminPanel/Page/ChatPage";
+import SettingPage from "./AdminPanel/Page/SettingPage";
+import PropertySetting from "./AdminPanel/Page/PropertySetting";
+import WidgetSetting from "./AdminPanel/Page/WidgetSetting";
 
 export const GComtext = createContext()
 
@@ -70,6 +73,8 @@ function App() {
             <Route path="/" element={<LayoutPage />}>
                 <Route index element={<HomePage />}/>
                 <Route path="/chat" element={<ChatPage />}/>
+                <Route path="/propertysetting" element={<PropertySetting />}/>
+                <Route path="/widgetsetting" element={<WidgetSetting />}/>
             </Route>
 
           </Routes>

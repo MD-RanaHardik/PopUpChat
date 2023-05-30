@@ -9,10 +9,11 @@ import * as url from 'url';
 import * as path from "path";
 import cors from "cors";
 import { adminDataRoutes } from '../routes/adminDataRoutes.js';
+import { clientChatRoutes } from '../routes/clientChatRoutes.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-const io = new Server(server,{cors:["http://localhost:5173"]});
+export const io = new Server(server,{cors:["http://localhost:5173"]});
 
 
 
@@ -31,6 +32,7 @@ app.use(session({
 
 app.use("/",authRoutes)
 app.use("/admindata",adminDataRoutes);
+app.use("/client",clientChatRoutes);
 
 
 io.on('connection', (socket) => {

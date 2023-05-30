@@ -66,6 +66,10 @@ socket.on("Test1",(msg1)=>{
     
 })
 
+socket.on("recivedNewChat",(msg)=>{
+    console.log(msg);
+})
+
 chatio.addEventListener("click",()=>{
     
     chatimg.classList.add("hidden")

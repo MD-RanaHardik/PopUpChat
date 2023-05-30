@@ -37,5 +37,6 @@ export const widgetSchema = new mongoose.Schema({
 
 export const chatSchema = new mongoose.Schema({
     Ip_address:String,
-    Chat:[String]
+    ChatData:[String],
+    is_completed:Boolean
 });
