@@ -12,7 +12,12 @@ import { addChat, addProperty, addWidget, getAllData } from "../mongodb/property
 import cors from "cors";
 
 
-mongoose.connect("mongodb://0.0.0.0:27017/Chatio").then(() => console.log("Connected to mongodb")).catch((e) => console.log(e));
+
+// mongoose.connect("mongodb://0.0.0.0:27017/Chatio").then(() => console.log("Connected to mongodb")).catch((e) => console.log(e));
+
+mongoose.connect("mongodb+srv://hardikrana:i7zPHaE0pFCZLPz5@popupchat.fefshet.mongodb.net/").then(() => console.log("Connected to mongodb")).catch((e) => console.log(e));
+
+
 
 let transpoter = nodemailer.createTransport({
     service: "gamil",
