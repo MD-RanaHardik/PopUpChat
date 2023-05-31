@@ -18,7 +18,8 @@ export default function SidebarCom() {
             <hr  className="text-blue-900 my-3"/>
 
             {
-              (admindata.property !=undefined) && 
+
+              (admindata != undefined) && (admindata.property !=undefined ) &&
               Object.keys(admindata.property).map(data=>{
                 if(admindata.property[data]["Property_status"]){
                   return <PropertyWidget key={admindata.property[data]["_id"]} property_id={admindata.property[data]["_id"]} title={admindata.property[data]["Property_name"]} />

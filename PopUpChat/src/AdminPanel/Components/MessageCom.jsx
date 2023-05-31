@@ -15,6 +15,7 @@ export default function MessageCom({ chatdata, chatsetter }) {
 
     const dispacher = useDispatch();
     const admindata = useSelector(state => state.adminData.data);
+    var audio = document.getElementById('audio');
 
     useEffect(() => {
         if (admindata.property != undefined & chatdata.property_id != "") {
@@ -24,27 +25,39 @@ export default function MessageCom({ chatdata, chatsetter }) {
 
         // console.log(admindata.property[chatdata.property_id]["Chat"][chatdata.widget_id]);
 
-    }, [admindata.property, chatdata])
+    }, [chatdata])
 
     socket.on((chatdata.ip != "") ? chatdata.ip : "notingtorecive", (msg) => {
-        let newmessage = `User|||${msg}|||${new Date()}`;
-        setChats([...chats,newmessage]);
-        console.log("msg ++++++++++", msg);
+        playPause();
+        setChats([...chats,msg]);
+        messageContainer.scrollTo(0, messageContainer.scrollHeight);
+        
     })
+
+    
 
     async function handleSendMessageEvent() {
         if (message != "") {
-            let newmessage = `Admin|||${message}|||${new Date()}`;
-            setChats([...chats,newmessage]);
+            playPause();
+            // let newmessage = `Admin|||${message}|||${new Date()}`;
+            // setChats([...chats,newmessage]);
             let response = await axios.get(`${API_HOST}/client/message/Admin/${chatdata.widget_id}/${chatdata.ip}/${message}`);
-            console.log(response.data);
+            // console.log(response.data);
+            messageContainer.scrollTo(0, messageContainer.scrollHeight);
             setMessage("");
         }
+    }
+
+    function playPause() {
+        audio.play();
     }
 
 
     return (
         <>
+            <audio id="audio">
+                <source src="button-124476.mp3" type="audio/mpeg" />
+            </audio>
             <h1 className="text-2xl font-semibold mb-2 text-slate-700">Message </h1>
             <div className="shadow-lg " id="chat" >
 

@@ -14,6 +14,7 @@ import ChatPage from "./AdminPanel/Page/ChatPage";
 import SettingPage from "./AdminPanel/Page/SettingPage";
 import PropertySetting from "./AdminPanel/Page/PropertySetting";
 import WidgetSetting from "./AdminPanel/Page/WidgetSetting";
+import LodingPage from "./AdminPanel/Page/LodingPage";
 
 export const GComtext = createContext()
 
@@ -37,12 +38,12 @@ function App() {
     }, 4000);
   }
 
-  function onEnter(page) {
+  function onEnter(pageToRedirect,defaultPage) {
     const isLoggedIn = sessionStorage.getItem('loginSession');
     if (isLoggedIn != null) {
-      return <Navigate to="/signup" />
+      return <Navigate to={pageToRedirect} />
     }else{
-      return page
+      return defaultPage
     }
   }
 
@@ -64,13 +65,14 @@ function App() {
         
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/forgotpassword" element={<ForgotPasswordPage />} />
-            <Route path="/otpverification" element={<OTPVerificationPage />} />
-            <Route path="/newpassword" element={<ChangePasswordPage />} />
+            <Route path="/login" element={onEnter("/",<LoginPage />)} />
+            <Route path="/signup" element={onEnter("/",<SignupPage />) } />
+            <Route path="/forgotpassword" element={onEnter("/",<ForgotPasswordPage />) } />
+            <Route path="/otpverification" element={onEnter("/",<OTPVerificationPage />) } />
+            <Route path="/newpassword" element={onEnter("/",<ChangePasswordPage />) } />
             
-            <Route path="/" element={<LayoutPage />}>
+
+            <Route path="/" element={<LayoutPage /> }>
                 <Route index element={<HomePage />}/>
                 <Route path="/chat" element={<ChatPage />}/>
                 <Route path="/propertysetting" element={<PropertySetting />}/>

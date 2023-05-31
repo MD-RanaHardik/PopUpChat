@@ -19,7 +19,8 @@ const adminDataSlice = createSlice({
             state.data = action.payload;
         }),
         builder.addCase(getUserEmail.fulfilled,(state,action)=>{
-            state.loggedin_user = action.payload;
+            state.loggedin_user = action.payload.email;
+            state.data =action.payload.data;
         })
     }
 });

@@ -25,6 +25,8 @@ export default function LoginPage() {
   async function handleSubmitEvent(e){
     e.preventDefault();
     if(sessionStorage.getItem("loginSession") != null){
+      // dispacher(getUserEmail());
+      // console.log("969999 ",admindata);
       navigate("/")
     }else{
        
@@ -32,7 +34,7 @@ export default function LoginPage() {
         
          if(response.data.message == "Login successfull"){
             sessionStorage.setItem("loginSession",response.data.token);
-           
+            // dispacher(getUserEmail());
             showMessage("Welcome to Chat.io!");
             navigate("/")
          }
@@ -58,7 +60,7 @@ export default function LoginPage() {
           <Link to={"/forgotpassword"}><button className="text-slate-600 my-2 float-right">Forgot password ?</button></Link>
           <input type="submit" className="bg-blue-700 py-2 text-white w-full font-bold rounded-md shadow-lg mt-6 hover:bg-blue-800" value="Login" /> 
         </form>
-        <p className="text-center mt-4">Don`&apos;`t have an account? <Link to={"/signup"}><button className="text-blue-500 font-semibold">Signup</button></Link></p>
+        <p className="text-center mt-4">Don&apos;t have an account? <Link to={"/signup"}><button className="text-blue-500 font-semibold">Signup</button></Link></p>
       </div>
     </>
   )

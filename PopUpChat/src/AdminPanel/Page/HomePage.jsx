@@ -5,7 +5,7 @@ export default function HomePage() {
 
   const state = useSelector(state => state.adminData);
   const dispach = useDispatch();
-  console.log(state);
+  
 
   return (
     <div className="col-span-5 h-screen p-10">
