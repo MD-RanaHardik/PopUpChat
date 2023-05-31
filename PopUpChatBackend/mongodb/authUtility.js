@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { Encrypt,Decrypt } from "../cryptography/passwordhashing.js";
 import { UserModel } from "./models.js";
+import { addProperty, addWidget } from "./propertyUtility.js";
 
 export var Register = async (Username, Email, Password) => {
 
@@ -12,6 +13,18 @@ export var Register = async (Username, Email, Password) => {
 
         let encryptedpassword = Encrypt(Password);
 
+        let widgetdata =await addWidget();
+
+        let propertydata = await addProperty({
+            Property_name: "First Property",
+            Property_status: true,
+            Property_url: "",
+            Property_profile_url: "",
+            Forwarded_email: Email,
+        },widgetdata._id)
+
+        let propertyID = propertydata._id;
+
         let User = new UserModel({
             Username: Username,
             Email: Email,
@@ -19,7 +32,7 @@ export var Register = async (Username, Email, Password) => {
             created_at: Date.now(),
             is_verified:false,
             property:{
-                "646e0c21eb04b792497da3f8":new mongoose.Types.ObjectId("646e0c21eb04b792497da3f8")
+                 [propertyID]: new mongoose.Types.ObjectId(propertydata._id)
             }
         })
 

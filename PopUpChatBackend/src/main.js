@@ -13,7 +13,7 @@ import { clientChatRoutes } from '../routes/clientChatRoutes.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-export const io = new Server(server,{cors:["http://localhost:5173"]});
+export const io = new Server(server,{cors:["*"]});
 
 
 
@@ -38,11 +38,6 @@ app.use("/client",clientChatRoutes);
 io.on('connection', (socket) => {
   console.log('a user connected',socket.id);
   
-  socket.on("Test1",(msg)=>{
-    io.emit("Test1",msg);
-    console.log("in server" + msg);
-  })
-
   socket.on("disconnect",()=>{
     console.log("user disconnected");
   })
@@ -50,12 +45,6 @@ io.on('connection', (socket) => {
 });
 
 
-
-
-app.get("/add/message/:msg",(req,res)=>{
-  io.emit("Test1",req.params.msg);
-  res.send(req.params.msg);
-})
 
 
 server.listen(4000, () => {
