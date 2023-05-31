@@ -42,7 +42,9 @@ async function GetCurruntUserIp(){
             playPause();
             msg.scrollTo(0, msg.scrollHeight);
         })
-    });
+    }).catch((e)=>{
+        console.log(e);
+    })
 
 }
 
@@ -53,13 +55,17 @@ async function StartChatIo(property_ID) {
     await GetCurruntUserIp();
 
     await fetch(`${API_HOST}/client/getwidget/${property_ID}`).then((res) => res.json()).then((data) => {
+        console.log(data);
         if (data[0]["Property_status"]) {
+            console.log(data[0]["Property_status"]);
             propertyID = property_ID;
             widgetColor = data[0]["Widget"]["Widget_color"];
             RenderChatPopUp(data[0]["Widget"]["Widget_color"]);
             
         }
-    });
+    }).catch((e)=>{
+        console.log(e);
+    })
 
 }
 
