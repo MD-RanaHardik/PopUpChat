@@ -1,4 +1,4 @@
-let API_HOST ;
+let API_HOST="https://popupchat.onrender.com";
 
 
 
@@ -48,17 +48,15 @@ async function GetCurruntUserIp(){
 
 
 
-async function StartChatIo(host,property_ID) {
-    API_HOST = host;
+async function StartChatIo(property_ID) {
+    console.log("called function");
     await GetCurruntUserIp();
 
     await fetch(`${API_HOST}/client/getwidget/${property_ID}`).then((res) => res.json()).then((data) => {
         if (data[0]["Property_status"]) {
             propertyID = property_ID;
             widgetColor = data[0]["Widget"]["Widget_color"];
-            setTimeout(() => {
-                RenderChatPopUp(data[0]["Widget"]["Widget_color"]);
-            }, 2000);
+            RenderChatPopUp(data[0]["Widget"]["Widget_color"]);
             
         }
     });
