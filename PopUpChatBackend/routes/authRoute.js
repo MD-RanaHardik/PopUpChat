@@ -15,7 +15,18 @@ import cors from "cors";
 
 // mongoose.connect("mongodb://0.0.0.0:27017/Chatio").then(() => console.log("Connected to mongodb")).catch((e) => console.log(e));
 
-mongoose.connect("mongodb+srv://hardikrana:i7zPHaE0pFCZLPz5@popupchat.fefshet.mongodb.net/").then(() => console.log("Connected to mongodb")).catch((e) => console.log(e));
+async function ConnnectToMongo(){
+    try {
+       await mongoose.connect("mongodb+srv://hardikrana:i7zPHaE0pFCZLPz5@popupchat.fefshet.mongodb.net/").then(() => console.log("Connected to mongodb ++++++")).catch((e) => console.log("++++++++++++++++++++++",e));
+    } catch (error) {
+        console.log("___________________",error);
+    }
+}
+
+
+ConnnectToMongo();
+
+// mongoose.connect("mongodb+srv://hardikrana:i7zPHaE0pFCZLPz5@popupchat.fefshet.mongodb.net/").then(() => console.log("Connected to mongodb")).catch((e) => console.log(e));
 
 
 
