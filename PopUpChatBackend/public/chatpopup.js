@@ -18,7 +18,7 @@ let ipaddres;
 // head.innerHTML += '<style>#msg::-webkit-scrollbar { width: 0;background: transparent;}</style>'
 
 
-var socket = io({ autoConnect: false });
+var socket = io(API_HOST,{ autoConnect: false });
 
 // https://www.trackip.net/ip?json
 
