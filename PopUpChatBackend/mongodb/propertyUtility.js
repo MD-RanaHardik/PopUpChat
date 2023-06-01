@@ -58,20 +58,20 @@ export const addChat = async () => {
 // }
 
 export const StartNewChat = async (IP, Property_ID) => {
-    let newip = IP.replaceAll(".", ":");
+    // let newip = IP.replaceAll(".", ":");
 
     let fin = await PropertyModel.findOne({_id:Property_ID}).populate("Chat");
-    let chat = fin.Chat.get(newip);
+    let chat = fin.Chat.get(IP);
     if(chat == undefined){
 
         let chatmodel = new ChatModel({
-            Ip_address: newip,
+            Ip_address: IP,
             ChatData: [],
             is_completed: false
         });
         await chatmodel.save();
     
-        let newobj = await PropertyModel.updateOne({ _id: Property_ID }, { $set: { [`Chat.${newip}`]: new mongoose.Types.ObjectId(chatmodel._id) } }, { upsert: true });
+        let newobj = await PropertyModel.updateOne({ _id: Property_ID }, { $set: { [`Chat.${IP}`]: new mongoose.Types.ObjectId(chatmodel._id) } }, { upsert: true });
     
         return chatmodel;
     }
@@ -93,7 +93,7 @@ export const getWidgetAndpropertyData =async (property_ID)=>{
 }
 
 export const NewMessageChat = async (IP, Widget_ID, Message, user = "User") => {
-    let newip = IP.replaceAll(".", ":");
+    // let newip = IP.replaceAll(".", ":");
     let newmessage = `${user}|||${Message}|||${new Date()}`;
     let newobj = ChatModel.updateOne({ _id: Widget_ID }, { $push: { ChatData: newmessage } }, { upsert: true });
 
