@@ -14,6 +14,19 @@ let ipaddres;
 
 
 
+function getCookie(name) {
+    let cookie = {};
+    document.cookie.split(';').forEach(function(el) {
+      let [k,v] = el.split('=');
+      cookie[k.trim()] = v;
+    })
+    return cookie[name];
+  }
+// console.log(getCookie("idfg"));
+
+
+
+
 // head.innerHTML += '<script src="https://cdn.tailwindcss.com"></script>'
 // head.innerHTML += '<style>#msg::-webkit-scrollbar { width: 0;background: transparent;}</style>'
 
@@ -28,8 +41,15 @@ async function GetCurruntUserIp(){
         mode: 'cors',
         method: 'GET',
     }).then((res)=>res.json()).then((data)=>{
-        ipaddres = data.ip;
+        if(getCookie("id") == undefined){  
+            document.cookie = `id=${crypto.randomUUID()}`;
+            ipaddres = data.ip+`=${getCookie("id")}`;
+        }else{
+            ipaddres = data.ip+`=${getCookie("id")}`;
+        }
+        console.log(ipaddres);
         console.log(data.ip);
+
 
         socket.on(ipaddres.replaceAll(".",":"), (msg1) => {
             
@@ -57,7 +77,7 @@ async function StartChatIo(property_ID) {
     await GetCurruntUserIp();
 
     await fetch(`${API_HOST}/client/getwidget/${property_ID}`).then((res) => res.json()).then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data[0]["Property_status"]) {
             console.log(data[0]["Property_status"]);
             propertyID = property_ID;
