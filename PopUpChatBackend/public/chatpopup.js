@@ -158,7 +158,7 @@ function RenderChatPopUp(color) {
 
 
             </div>
-            <div class="h-96 w-full overflow-y-scroll pb-20 " id="msg">
+            <div class="h-96 w-full overflow-y-scroll pb-20 bg-white" id="msg" >
 
             </div>
             <div class="p-4 fixed bottom-0 w-full bg-blue-100">
