@@ -28,6 +28,7 @@ export default function MessageCom({ chatdata, chatsetter }) {
     }, [chatdata])
 
     socket.on((chatdata.ip != "") ? chatdata.ip : "notingtorecive", (msg) => {
+        console.log("recived msg",msg);
         playPause();
         setChats([...chats,msg]);
         messageContainer.scrollTo(0, messageContainer.scrollHeight);
@@ -38,7 +39,7 @@ export default function MessageCom({ chatdata, chatsetter }) {
 
     async function handleSendMessageEvent() {
         if (message != "") {
-            playPause();
+            // playPause();
             // let newmessage = `Admin|||${message}|||${new Date()}`;
             // setChats([...chats,newmessage]);
             let response = await axios.get(`${API_HOST}/client/message/Admin/${chatdata.widget_id}/${chatdata.ip}/${message}`);
