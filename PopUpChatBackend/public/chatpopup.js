@@ -14,18 +14,6 @@ let ipaddres;
 
 
 
-function getCookie(name) {
-    let cookie = {};
-    document.cookie.split(';').forEach(function(el) {
-      let [k,v] = el.split('=');
-      cookie[k.trim()] = v;
-    })
-    return cookie[name];
-  }
-// console.log(getCookie("idfg"));
-
-
-
 
 // head.innerHTML += '<script src="https://cdn.tailwindcss.com"></script>'
 // head.innerHTML += '<style>#msg::-webkit-scrollbar { width: 0;background: transparent;}</style>'
@@ -41,11 +29,11 @@ async function GetCurruntUserIp(){
         mode: 'cors',
         method: 'GET',
     }).then((res)=>res.json()).then((data)=>{
-        if(getCookie("id") == undefined){  
-            document.cookie = `id=${crypto.randomUUID()}`;
-            ipaddres = data.ip+`=${getCookie("id")}`;
+        if(localStorage.getItem("popupchatid") == null){  
+            localStorage.setItem("popupchatid",crypto.randomUUID())
+            ipaddres = data.ip+`=${localStorage.getItem("popupchatid")}`;
         }else{
-            ipaddres = data.ip+`=${getCookie("id")}`;
+            ipaddres = data.ip+`=${localStorage.getItem("popupchatid")}`;
         }
         console.log(ipaddres);
         console.log(data.ip);
