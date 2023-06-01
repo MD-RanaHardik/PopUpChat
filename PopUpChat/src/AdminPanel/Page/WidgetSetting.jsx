@@ -107,9 +107,10 @@ export default function WidgetSetting() {
 
                             &lt;style&gt;
                             <br></br>
-                            {'{'}
-                            <br></br>
+                            
                             #msg::-webkit-scrollbar
+                            <br></br>
+                            {'{'}
                             <br></br>
                             width: 0;
                             <br></br>
@@ -122,9 +123,9 @@ export default function WidgetSetting() {
 
                             <p className="text-blue-950 pb-2 font-semibold mt-3">Add this code to end of the body tag</p>
 
-                            &lt;script src=&quot;&quot; type=&quot;text/javascript&quot;&gt;
+                            &lt;script src=&quot;https://popupchat.onrender.com/chatpopup.js&quot; type=&quot;text/javascript&quot;/&gt;
                             <br></br>
-                            &lt;script &gt; StartChatIo(&quot;&quot;,&quot;{urldata.get("property_id")}&quot;) &lt;/script &gt;
+                            &lt;script &gt; StartChatIo(&quot;{urldata.get("property_id")}&quot;) &lt;/script &gt;
                             {/* '<script src="test.js"></script><script >StartChatIo()</script>' */}
 
                         </code>

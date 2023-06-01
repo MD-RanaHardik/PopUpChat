@@ -27,7 +27,7 @@ export default function LiveChats({ chatdata, chatsetter }) {
         setPropertyID(urldata.get(""));
     }
     socket.connect();
-  }, [loc.search])
+  }, [dispacher,loc.search])
 
 
  

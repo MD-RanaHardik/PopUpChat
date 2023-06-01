@@ -41,9 +41,9 @@ export default function HeaderCom() {
                 <div>
                     <p className="text-xs">Widget Name</p>
                     <h2 className="font-semibold text-lg">
-                    {/* {
-                        (property_id != null)&& (admindata.property != undefined) && admindata.property[property_id]["Widget"]["Widget_name"]
-                    } */}
+                    {
+                        (property_id != null )&& (admindata != undefined && admindata.property != undefined) && admindata.property[property_id]["Widget"]["Widget_name"]
+                    }
                     </h2>
                 </div>
                 <div className="flex">          

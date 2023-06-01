@@ -48,6 +48,13 @@ export default function MessageCom({ chatdata, chatsetter }) {
         }
     }
 
+    function SendMessageOnEnter(ele) {
+        
+        if(ele.key === 'Enter') {
+            handleSendMessageEvent();       
+        }
+    }
+
     function playPause() {
         audio.play();
     }
@@ -130,7 +137,7 @@ export default function MessageCom({ chatdata, chatsetter }) {
                     {
                         (chatdata.widget_id != "" && chatdata.ip != "") ?
                             <div className="flex w-full " id="inputs">
-                                <input type="text" value={message} onChange={(e) => { setMessage(e.target.value) }} id="msginput" placeholder="Message" className="placeholder-slate-700 w-full text-blue-950 py-2 px-2 rounded-lg bg-white ring-1 ring-slate-100 outline-none" />
+                                <input type="text" value={message} onKeyDown={(e)=>{SendMessageOnEnter(e)}} onChange={(e) => { setMessage(e.target.value) }} id="msginput" placeholder="Message" className="placeholder-slate-700 w-full text-blue-950 py-2 px-2 rounded-lg bg-white ring-1 ring-slate-100 outline-none" />
                                 <button onClick={() => { handleSendMessageEvent() }} id="sendmsg" className="h-10 w-11 ml-1 bg-blue-900 rounded-full hover:bg-blue-950"><img className="p-2" src="https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png" alt="not" /></button>
                             </div> : <p className="text-center font-medium">Click on chat now to start chat</p>
                     }

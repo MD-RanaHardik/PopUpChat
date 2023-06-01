@@ -31,7 +31,7 @@ async function GetCurruntUserIp(){
         ipaddres = data.ip;
         console.log(data.ip);
 
-        socket.on(ipaddres, (msg1) => {
+        socket.on(ipaddres.replaceAll(".",":"), (msg1) => {
             
             let msg = document.getElementById("msg");
         
