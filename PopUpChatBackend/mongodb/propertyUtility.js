@@ -58,27 +58,79 @@ export const addChat = async () => {
 // }
 
 export const StartNewChat = async (IP, Property_ID) => {
-    // let newip = IP.replaceAll(".", ":");
+    console.log(IP);
+    let newip = IP.replaceAll(".",":");
+    
+    console.log(newip);
 
     let fin = await PropertyModel.findOne({_id:Property_ID}).populate("Chat");
-    let chat = fin.Chat.get(IP);
+    console.log(fin);
+    let chat = fin.Chat[newip];
     if(chat == undefined){
-
+        
         let chatmodel = new ChatModel({
-            Ip_address: IP,
+            Ip_address: newip,
             ChatData: [],
             is_completed: false
         });
         await chatmodel.save();
-    
-        let newobj = await PropertyModel.updateOne({ _id: Property_ID }, { $set: { [`Chat.${IP}`]: new mongoose.Types.ObjectId(chatmodel._id) } }, { upsert: true });
-    
+
+        try {
+            let newobj = await PropertyModel.updateOne({ _id: Property_ID }, { $set: { [`Chat.${newip}`]: new mongoose.Types.ObjectId(chatmodel._id) } }, { upsert: true });
+            
+        } catch (error) {
+            console.log("_______ faid to add property",error)
+        }
+
         return chatmodel;
-    }
-    else{
-        
+    }else{
         return chat;
     }
+
+    // try {
+    //     let chat = fin.Chat[newip];
+    //     console.log("chat finded + ++ ",chat);
+    //     return chat;
+    // } catch (error) {
+    //     console.log("++++++++++ error cant find chat",error);
+    //     let chatmodel = new ChatModel({
+    //         Ip_address: newip,
+    //         ChatData: [],
+    //         is_completed: false
+    //     });
+    //     await chatmodel.save();
+
+    //     try {
+    //         let newobj = await PropertyModel.updateOne({ _id: Property_ID }, { $set: { [`Chat.${newip}`]: new mongoose.Types.ObjectId(chatmodel._id) } }, { upsert: true });
+    //         console.log("_________ chat added to property",newobj);
+    //     } catch (error) {
+    //         console.log("_______ faid to add property",error)
+    //     }
+
+        
+    //     console.log(chatmodel);
+    //     return chatmodel;
+        
+    // }
+
+    // let chat = fin.Chat[newip];
+    // if(chat == undefined){
+
+    //     let chatmodel = new ChatModel({
+    //         Ip_address: newip,
+    //         ChatData: [],
+    //         is_completed: false
+    //     });
+    //     await chatmodel.save();
+    
+    //     let newobj = await PropertyModel.updateOne({ _id: Property_ID }, { $set: { [`Chat.${newip}`]: new mongoose.Types.ObjectId(chatmodel._id) } }, { upsert: true });
+    
+    //     return chatmodel;
+    // }
+    // else{
+        
+    //     return chat;
+    // }
 
    
 
@@ -93,7 +145,8 @@ export const getWidgetAndpropertyData =async (property_ID)=>{
 }
 
 export const NewMessageChat = async (IP, Widget_ID, Message, user = "User") => {
-    // let newip = IP.replaceAll(".", ":");
+    let newip = IP.replaceAll(".", ':');
+    
     let newmessage = `${user}|||${Message}|||${new Date()}`;
     let newobj = ChatModel.updateOne({ _id: Widget_ID }, { $push: { ChatData: newmessage } }, { upsert: true });
 
