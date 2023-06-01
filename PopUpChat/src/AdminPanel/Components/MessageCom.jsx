@@ -26,7 +26,7 @@ export default function MessageCom({ chatdata, chatsetter }) {
         // console.log(admindata.property[chatdata.property_id]["Chat"][chatdata.widget_id]);
 
     }, [chatdata])
-
+   
     socket.on((chatdata.ip != "") ? chatdata.ip : "notingtorecive", (msg) => {
         console.log("recived msg",msg);
         playPause();

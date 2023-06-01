@@ -31,7 +31,7 @@ async function GetCurruntUserIp(){
         ipaddres = data.ip;
         console.log(data.ip);
 
-        socket.on(ipaddres, (msg1) => {
+        socket.on(ipaddres.replaceAll(".",":"), (msg1) => {
             
             let msg = document.getElementById("msg");
         
@@ -300,7 +300,7 @@ async function StartNewChat(){
     
     let msg = document.getElementById("msg");
 
-    await fetch(`${API_HOST}/client/chat/${propertyID}/${ipaddres}`).then((res)=>res.json()).then((data)=>{
+    await fetch(`${API_HOST}/client/chat/${propertyID}/${ipaddres.replaceAll(".",":")}`).then((res)=>res.json()).then((data)=>{
         
         if("ChatData" in data){
             widget_ID = data["_id"];
@@ -327,7 +327,7 @@ async function StartNewChat(){
 }
 
 async function SendMessageToApi(message){
-    await fetch(`${API_HOST}/client//message/User/${widget_ID}/${ipaddres}/${message}`).then((res)=>res.json()).then((data)=>{
+    await fetch(`${API_HOST}/client//message/User/${widget_ID}/${ipaddres.replaceAll(".",":")}/${message}`).then((res)=>res.json()).then((data)=>{
         // playPause();
     })
 }
