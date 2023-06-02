@@ -107,7 +107,8 @@ export default function WidgetSetting() {
 
                         <code className="bg-blue-100 ring-1 rounded-md text-blue-950 p-5 my-2">
 
-                            &lt;script type=&quot;text/javascript&quot; src=&quot;https://popupchat.onrender.com/chatpopup.min.js&quot; id=&quot;{urldata.get("property_id")}&quot; /&gt;
+                            &lt;script type=&quot;text/javascript&quot; src=&quot;https://popupchat.onrender.com/chatpopup.min.js&quot; id=&quot;{urldata.get("property_id")}&quot; &gt;
+                            &lt;/script&gt;
 
                         </code>
                     </div>
