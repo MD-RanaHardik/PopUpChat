@@ -60,12 +60,10 @@ export const addChat = async () => {
 export const StartNewChat = async (IP, Property_ID) => {
     console.log(IP);
     let newip = IP.replaceAll(".",":");
-    
-    console.log(newip);
 
     let fin = await PropertyModel.findOne({_id:Property_ID}).populate("Chat");
-    console.log(fin);
-    let chat = fin.Chat[newip];
+   
+    let chat = fin.Chat.get(newip);
     if(chat == undefined){
         
         let chatmodel = new ChatModel({
@@ -84,6 +82,7 @@ export const StartNewChat = async (IP, Property_ID) => {
 
         return chatmodel;
     }else{
+       
         return chat;
     }
 
