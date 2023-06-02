@@ -102,32 +102,9 @@ export default function WidgetSetting() {
                         <p className="font-medium text-slate-600">Widget Code</p>
 
                         <code className="bg-blue-100 ring-1 rounded-md text-blue-950 p-5 my-2">
-                            <p className="text-blue-950 pb-2 font-semibold">Add this code to end of the head tag</p>
-                            &lt;script src=&quot;https://cdn.tailwindcss.com&quot; /&gt;
-
-                            &lt;style&gt;
-                            <br></br>
                             
-                            #msg::-webkit-scrollbar
-                            <br></br>
-                            {'{'}
-                            <br></br>
-                            width: 0;
-                            <br></br>
-                            background: transparent;
-                            <br></br>
-                            {'}'}
-                            <br></br>
-                            &lt;/style&gt;
-
-
-                            <p className="text-blue-950 pb-2 font-semibold mt-3">Add this code to end of the body tag</p>
-
-                            &lt;script src=&quot;https://popupchat.onrender.com/chatpopup.js&quot; type=&quot;text/javascript&quot;/&gt;
-                            <br></br>
-                            &lt;script &gt; StartChatIo(&quot;{urldata.get("property_id")}&quot;) &lt;/script &gt;
-                            {/* '<script src="test.js"></script><script >StartChatIo()</script>' */}
-
+                            &lt;script type=&quot;text/javascript&quot; src=&quot;https://popupchat.onrender.com/chatpopup.min.js&quot; id=&quot;{urldata.get("property_id")}&quot; /&gt;
+                            
                         </code>
                     </div>
 

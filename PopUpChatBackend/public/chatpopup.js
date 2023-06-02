@@ -140,12 +140,12 @@ function RenderChatPopUp(color) {
                 <form onsubmit="SendMessage(event)">
                 <input type="text" id="msginput" placeholder="Message"
                                 class="placeholder-slate-700 w-full text-blue-950 py-2 px-2 rounded-lg bg-white ring-1 ring-slate-100 outline-none" required/>
-                <input id="sendmsg" type="submit" class="h-10 w-11 ml-1 bg-[${color}] rounded-full"><img class="p-2" src="https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png"
-                                    alt="not" />
+                
+                <input type="submit" value="" class="h-10 w-11 ml-1 bg-blue-950 rounded-full bg-center bg-no-repeat bg-[length:30px_30px] bg-[url('https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png')]"  />
             </form>
                 </div>
                 <button id="chatnowbtn" onclick="ChatNowBtn()"
-                    class="bg-[${color}] text-white font-semibold w-full py-2 rounded-xl ">Chat
+                    class="animate-bounce bg-[${color}] text-white font-semibold w-full py-2 rounded-xl ">Chat
                     Now</button>
             </div>
         </div>
