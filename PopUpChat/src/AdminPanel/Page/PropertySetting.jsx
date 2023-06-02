@@ -1,21 +1,65 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux";
+import { API_HOST } from "../../setting";
+import axios from "axios";
+import { GComtext } from "../../App";
+import { getUserData } from "../../State/Actions/adminDataAction";
 
 
 export default function PropertySetting() {
 
+    
+
     let [inputs,setInputs] = useState({
-        Property_name:"sdsd",
+        Property_name:"",
         Property_status:true,
         Property_url:"",
         Property_profile_url:"",
         Forwarded_email:"",
         Property_ID:""
     })
+    const admindata = useSelector(state => state.adminData.data);
+    const userdata = useSelector(state => state.adminData);
+    const dispacher =useDispatch();
+    const showMessage = useContext(GComtext);
+    const urldata = new URLSearchParams(window.location.search);
+
+    useEffect(()=>{
+        if (urldata.get("property_id") != null && Object.keys(admindata).length >0) {
+            console.log('+++++++++++',admindata.property[urldata.get("property_id")]);
+            setInputs({
+                ...inputs,
+                Property_name:admindata.property[urldata.get("property_id")].Property_name,
+                Property_status:admindata.property[urldata.get("property_id")].Property_status,
+                Property_url:admindata.property[urldata.get("property_id")].Property_url,
+                Property_profile_url:admindata.property[urldata.get("property_id")].Property_profile_url,
+                Forwarded_email:admindata.property[urldata.get("property_id")].Forwarded_email,
+                Property_ID:urldata.get("property_id")
+            });
+
+            // admindata.property[urldata.get("property_id")]
+            
+        }
+    },[dispacher])
+
+    // console.log(admindata.property[urldata.get("property_id")]);
 
     
-    function handleFormEvent(e){
+    async function handleFormEvent(e){
         e.preventDefault();
+
+        let response = await axios.post(`${API_HOST}/client/updateproperty`, {id: urldata.get("property_id"), data: inputs})
+
+        if (response.data.message == "Property updated") {
+
+            showMessage("Property data updated");
+            dispacher(getUserData(userdata.loggedin_user));
+
+        }
+        if (response.data.message == "Failed to update property") {
+            showMessage("Failed to update property data");
+        }
 
     }
 
@@ -41,7 +85,7 @@ export default function PropertySetting() {
 
                         <label className="font-medium text-slate-600">Property Status</label>
                         <select value={(inputs.Property_status == true)?"Active" :"Inactive"} onChange={(e)=>{setInputs({...inputs,Property_status:(e.target.value == "Active")? true: false})}} className="w-full py-2 my-2 ring-1 ring-slate-300 outline-none px-3 shadow-md rounded-md">
-                            <option selected>Active</option>
+                            <option >Active</option>
                             <option>Inactive</option>
                         </select>
 

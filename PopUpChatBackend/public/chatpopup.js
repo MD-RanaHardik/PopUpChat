@@ -26,6 +26,7 @@ let API_HOST = "https://popupchat.onrender.com";
 let body = document.body;
 let head = document.head;
 let widgetColor;
+let propertyName;
 let propertyID;
 let widget_ID;
 let ipaddres;
@@ -84,6 +85,7 @@ async function StartChatIo(property_ID) {
         // console.log(data);
         if (data[0]["Property_status"]) {
             console.log(data[0]["Property_status"]);
+            propertyName = data[0]["Property_name"]
             propertyID = property_ID;
             widgetColor = data[0]["Widget"]["Widget_color"];
             RenderChatPopUp(data[0]["Widget"]["Widget_color"]);
@@ -118,7 +120,7 @@ function RenderChatPopUp(color) {
                         src="https://static.vecteezy.com/system/resources/previews/011/381/911/original/male-customer-service-3d-cartoon-avatar-portrait-png.png"
                         alt="not found">
                     <div class="my-auto">
-                        <p class="font-semibold text-lg text-center text-white">Rana Hardik</p>
+                        <p class="font-semibold text-lg text-center text-white">${propertyName}</p>
                         <div class="flex mt-1">
                             <span class="h-2 w-2 rounded-full bg-white animate-ping my-auto mr-2"></span>
                             <p class="text-xs text-white" id="onlinestatus">${onlinestatus}</p>

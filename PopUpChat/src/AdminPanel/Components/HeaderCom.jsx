@@ -8,6 +8,7 @@ export default function HeaderCom() {
     const loc = useLocation();
     const navigae = useNavigate();
     const admindata = useSelector(state =>state.adminData.data);
+    const dispacher = useDispatch();
     const [property_id,setPropertyID] = useState("");
 
     useEffect(()=>{
@@ -22,7 +23,7 @@ export default function HeaderCom() {
         }
         console.log("first")
        
-    },[loc.search])
+    },[dispacher,loc.search])
 
     function Logout(){
         sessionStorage.removeItem("loginSession");
@@ -36,13 +37,13 @@ export default function HeaderCom() {
   return (
     <>
         <div className="bg-white shadow-lg py-5 w-full grid grid-cols-6">
-            <h1 className="text-blue-950 font-semibold text-2xl ml-4 font-serif col-span-1">Chat.io</h1>
+            <h1 className="text-blue-950 font-bold text-2xl ml-4 font-serif col-span-1 flex"><img src="logo.png" className="h-8 mr-2"></img> Chat.io</h1>
             <div className="col-span-5 flex px-2 justify-between">
                 <div>
                     <p className="text-xs">Widget Name</p>
                     <h2 className="font-semibold text-lg">
                     {
-                        (property_id != null )&& (admindata != undefined && admindata.property != undefined) && admindata.property[property_id]["Widget"]["Widget_name"]
+                        (property_id != null )&& (admindata != undefined && admindata.property != undefined ) && (admindata.property[property_id]["Widget"] != undefined) && admindata.property[property_id]["Widget"]["Widget_name"]
                     }
                     </h2>
                 </div>

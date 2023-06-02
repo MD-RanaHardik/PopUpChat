@@ -1,14 +1,17 @@
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from "react"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { API_HOST } from "../../setting";
 import axios from "axios";
 import { GComtext } from "../../App";
+import { getUserData } from "../../State/Actions/adminDataAction";
 
 
 export default function WidgetSetting() {
 
     const admindata = useSelector(state => state.adminData.data);
+    const userdata = useSelector(state => state.adminData);
+    const dispacher =useDispatch();
     const showMessage = useContext(GComtext);
     const [widgetid, setWidgetID] = useState("");
 
@@ -25,8 +28,8 @@ export default function WidgetSetting() {
 
         // console.log("+++++++++",urldata.get("property_id"));
 
-        if (urldata.get("property_id") != null) {
-
+        if (urldata.get("property_id") != null && Object.keys(admindata).length >0) {
+            console.log('+++++++++++',admindata);
             setInput({
                 ...inputs, Widget_name: admindata.property[urldata.get("property_id")]["Widget"].Widget_name,
                 Widget_status: admindata.property[urldata.get("property_id")]["Widget"].Widget_status,
@@ -38,7 +41,7 @@ export default function WidgetSetting() {
         }
 
 
-    }, [])
+    }, [dispacher])
 
     async function handleFormEvent(e) {
         e.preventDefault();
@@ -48,6 +51,7 @@ export default function WidgetSetting() {
         if (response.data.message == "Widget updated") {
 
             showMessage("Widget data updated");
+            dispacher(getUserData(userdata.loggedin_user));
 
         }
         if (response.data.message == "Failed to update widget") {
@@ -102,21 +106,18 @@ export default function WidgetSetting() {
                         <p className="font-medium text-slate-600">Widget Code</p>
 
                         <code className="bg-blue-100 ring-1 rounded-md text-blue-950 p-5 my-2">
-                            
+
                             &lt;script type=&quot;text/javascript&quot; src=&quot;https://popupchat.onrender.com/chatpopup.min.js&quot; id=&quot;{urldata.get("property_id")}&quot; /&gt;
-                            
+
                         </code>
                     </div>
 
 
 
 
-
-
-
                 </div>
 
-                
+
             </form>
 
 

@@ -86,16 +86,20 @@ export default function LiveChats({ chatdata, chatsetter }) {
 function ChatWidget({ id, ip, chatid, chatsetter, property_id }) {
   const dispacher = useDispatch();
   const userdata = useSelector(state => state.adminData);
-  return <div className="flex m-5 bg-blue-100 p-3 justify-between drop-shadow-md rounded-md">
-    <div className="flex ">
+  return <div className="grid grid-cols-4 m-5 bg-blue-100 p-3  drop-shadow-md rounded-md">
+    <div className="flex col-span-3">
       <img className="h-10 w-10" src="https://img.icons8.com/3d-fluency/94/user-male-circle.png" alt="person-male" />
       <div className="ml-3">
         <p className="text-blue-950 font-semibold ">Visitor {id}</p>
-        <p className="text-blue-950 text-xs">{ip}</p>
+        <p className="text-blue-950 text-xs break-words ">{ip}</p>
       </div>
 
     </div>
-    <button onClick={() => { dispacher(getUserData(userdata.loggedin_user)); chatsetter({ ip: ip, widget_id: chatid, is_chat_started: true, property_id: property_id }) }} className="bg-blue-900 text-white px-4 rounded-lg hover:bg-blue-950">Chat Now</button>
+    <div className="col-span-1 mx-auto">
+      <button onClick={() => { dispacher(getUserData(userdata.loggedin_user)); chatsetter({ ip: ip, widget_id: chatid, is_chat_started: true, property_id: property_id }) }} className="h-10 bg-blue-900 text-white px-4 rounded-lg hover:bg-blue-950">Chat Now</button>
+    </div>
+    
+    
 
   </div>
 }
