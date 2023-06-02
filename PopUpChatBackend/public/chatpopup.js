@@ -29,13 +29,8 @@ let widgetColor;
 let propertyID;
 let widget_ID;
 let ipaddres;
+let onlinestatus="Offline";
 
-
-
-
-
-// head.innerHTML += '<script src="https://cdn.tailwindcss.com"></script>'
-// head.innerHTML += '<style>#msg::-webkit-scrollbar { width: 0;background: transparent;}</style>'
 
 
 var socket = io(API_HOST, { autoConnect: false });
@@ -61,9 +56,15 @@ async function GetCurruntUserIp() {
         socket.on(ipaddres.replaceAll(".", ":"), (msg1) => {
 
             let msg = document.getElementById("msg");
+            let onlinestatusdiv = getElementById("onlinestatus");
 
             let data = msg1.split("|||")
             if (data[0] == "Admin") {
+
+                if(onlinestatus == "Offline"){
+                    onlinestatusdiv.innerHTML = "Online";
+                }
+                
                 addRecivedMessage(data[1]);
             } else {
                 addSendeMessage(data[1]);
@@ -110,9 +111,10 @@ function RenderChatPopUp(color) {
         class="hidden float-right text-white h-8 w-8 bg-[${color}] rounded-full p-2 my-auto mr-5 "><img
             src="https://img.icons8.com/ios-filled/50/FFFFFF/delete-sign--v1.png" alt="delete-sign--v1"></button>
 
-    <div class="h-14 w-14 shadow-xl rounded-full fixed bottom-0 right-0 m-6 drop-shadow-lg hover:shadow-xl overflow-hidden"
-        id="chatio" onclick="ChatIo()">
-        <img src="https://cryptologos.cc/logos/chatcoin-chat-logo.png" class="" alt="not" id="chatimg">
+        <div class="h-14 w-14 bg-[${color}] animate-bounce shadow-xl rounded-full fixed bottom-0 right-0 m-6 drop-shadow-lg hover:shadow-xl overflow-hidden "
+            id="chatio" onclick="ChatIo()">
+            <img src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/512/FFFFFF/external-chat-social-media-ui-tanah-basah-glyph-tanah-basah.png" class="p-2 " alt="not" id="chatimg">
+      
         <div class="hidden" id="chat">
             <div class="h-20 bg-[${color}] flex pl-3 justify-between">
                 <div class="flex">
@@ -123,7 +125,7 @@ function RenderChatPopUp(color) {
                         <p class="font-semibold text-lg text-center text-white">Rana Hardik</p>
                         <div class="flex mt-1">
                             <span class="h-2 w-2 rounded-full bg-white animate-ping my-auto mr-2"></span>
-                            <p class="text-xs text-white">Online</p>
+                            <p class="text-xs text-white" id="onlinestatus">${onlinestatus}</p>
                         </div>
                     </div>
                 </div>
@@ -137,15 +139,16 @@ function RenderChatPopUp(color) {
             <div class="p-4 fixed bottom-0 w-full bg-blue-100">
                 <div class="flex w-full hidden" id="inputs">
                
-                <form onsubmit="SendMessage(event)">
+                <form onsubmit="SendMessage(event)" class="flex w-full  justify-between">
                 <input type="text" id="msginput" placeholder="Message"
                                 class="placeholder-slate-700 w-full text-blue-950 py-2 px-2 rounded-lg bg-white ring-1 ring-slate-100 outline-none" required/>
                 
-                <input type="submit" value="" class="h-10 w-11 ml-1 bg-blue-950 rounded-full bg-center bg-no-repeat bg-[length:30px_30px] bg-[url('https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png')]"  />
-            </form>
+                <input type="submit" value="" class="h-10 w-12 ml-3 bg-[${color}] rounded-full bg-center bg-no-repeat bg-[length:30px_30px] bg-[url('https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png')]"  />
+
+                </form>
                 </div>
                 <button id="chatnowbtn" onclick="ChatNowBtn()"
-                    class="animate-bounce bg-[${color}] text-white font-semibold w-full py-2 rounded-xl ">Chat
+                    class=" bg-[${color}] text-white font-semibold w-full py-2 rounded-xl ">Chat
                     Now</button>
             </div>
         </div>
@@ -203,6 +206,7 @@ function ChatIo() {
 
 
     console.log("click chat io")
+    chatio.classList.remove("animate-bounce");
     chatimg.classList.add("hidden")
     chatio.style.borderRadius = "10px";
     chatio.style.height = "80%"
@@ -219,10 +223,12 @@ function CloseBtn() {
     let chat = document.getElementById("chat");
     let closebtn = document.getElementById("close");
 
+
     closebtn.classList.add("hidden");
     chat.classList.add("hidden");
     chatio.style = "";
     chatimg.classList.remove("hidden")
+    chatio.classList.add("animate-bounce");
     socket.disconnect();
 }
 
