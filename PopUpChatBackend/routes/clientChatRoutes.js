@@ -8,7 +8,7 @@ import { password ,email} from "../setting.js";
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 import nodemailer from "nodemailer";
 import { Encrypt,Decrypt } from "../cryptography/passwordhashing.js";
-import { NewMessageChat, StartNewChat, addChat, addProperty, addWidget, getAllData, getWidgetAndpropertyData, updateWidget } from "../mongodb/propertyUtility.js";
+import { NewMessageChat, StartNewChat, addChat, addProperty, addWidget, getAllData, getWidgetAndpropertyData, updateProperty, updateWidget } from "../mongodb/propertyUtility.js";
 import cors from "cors";
 import { io } from "../src/main.js";
 
@@ -29,6 +29,12 @@ clientChatRoutes.get("/message/:user/:widget_ID/:user_IP/:message",async(req,res
 
 clientChatRoutes.post("/updatewidget",async(req,res)=>{
     let data = await updateWidget(req.body.id,req.body.data);
+    res.json({status:200,message:data})
+})
+
+clientChatRoutes.post("/updateproperty",async(req,res)=>{
+    
+    let data = await updateProperty(req.body.id,req.body.data);
     res.json({status:200,message:data})
 })
 

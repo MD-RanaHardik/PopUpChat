@@ -204,20 +204,21 @@ export const updateWidget = async (id,data)=> {
   }
 
 
-export const updateProperty = async (id)=> {
+export const updateProperty = async (id,data)=> {
     try {
       await PropertyModel.findByIdAndUpdate({_id:id},{
-        Property_name:"mindeffet",
-        Property_status:true,
-        Property_url:"",
-        Property_profile_url:"",
-        forwarded_email:"parth.hirani@mindeffet.net",
-       
+        Property_name:data.Property_name,
+        Property_status:data.Property_status,
+        Property_url:data.Property_url,
+        Property_profile_url:data.Property_profile_url,
+        Forwarded_email:data.Forwarded_email,
       });
-     
-      
+
+      return "Property updated";
+
     } catch (error) {
       console.log(error);
+      return "Failed to update property";
     }
   }
 
