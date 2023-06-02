@@ -35,14 +35,24 @@ app.use("/admindata",adminDataRoutes);
 app.use("/client",clientChatRoutes);
 
 
+
 io.on('connection', (socket) => {
   console.log('a user connected',socket.id);
+  socket.on("fortest",(msg)=>{
+    console.log(msg);
+  })
+  
+  socket.on("liveuseremit",(msg)=>{
+    console.log(msg);
+    io.emit(msg,`${msg} +++++++++++++`);
+  })
   
   socket.on("disconnect",()=>{
     console.log("user disconnected");
   })
   // socket.emit("test","Hello  how are you");
 });
+
 
 
 

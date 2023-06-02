@@ -78,6 +78,7 @@ async function GetCurruntUserIp() {
 
 
 async function StartChatIo(property_ID) {
+    socket.connect();
     console.log("called function");
     await GetCurruntUserIp();
 
@@ -88,6 +89,8 @@ async function StartChatIo(property_ID) {
             propertyName = data[0]["Property_name"]
             propertyID = property_ID;
             widgetColor = data[0]["Widget"]["Widget_color"];
+            socket.emit("liveuseremit",`${propertyID}::liveuser`);
+            
             RenderChatPopUp(data[0]["Widget"]["Widget_color"]);
 
         }
@@ -106,7 +109,7 @@ function RenderChatPopUp(color) {
         </audio>
     <div>
     <button id="close" onclick="CloseBtn()"
-        class="hidden float-right text-white h-8 w-8 bg-[${color}] rounded-full p-2 my-auto mr-5 "><img
+        class="hidden float-right text-white h-8 w-8 bg-[${color}] rounded-full p-2  mr-5 "><img
             src="https://img.icons8.com/ios-filled/50/FFFFFF/delete-sign--v1.png" alt="delete-sign--v1"></button>
 
         <div class="h-14 w-14 bg-[${color}] animate-bounce shadow-xl rounded-full fixed bottom-0 right-0 m-6 drop-shadow-lg hover:shadow-xl overflow-hidden "
@@ -131,7 +134,7 @@ function RenderChatPopUp(color) {
 
 
             </div>
-            <div class="h-96 w-full overflow-y-scroll pb-20 bg-white" id="msg" >
+            <div class="h-screen w-full overflow-y-scroll pb-20 bg-white" id="msg" >
 
             </div>
             <div class="p-4 fixed bottom-0 w-full bg-blue-100">
@@ -232,7 +235,7 @@ async function ChatNowBtn() {
     let inputs = document.getElementById("inputs");
     let chatnowbtn = document.getElementById("chatnowbtn");
 
-    socket.connect();
+  
     await StartNewChat();
     chatnowbtn.classList.add("hidden");
     inputs.classList.remove("hidden");
