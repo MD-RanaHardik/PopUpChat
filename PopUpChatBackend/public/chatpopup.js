@@ -56,14 +56,10 @@ async function GetCurruntUserIp() {
         socket.on(ipaddres.replaceAll(".", ":"), (msg1) => {
 
             let msg = document.getElementById("msg");
-            let onlinestatusdiv = getElementById("onlinestatus");
+            
 
             let data = msg1.split("|||")
             if (data[0] == "Admin") {
-
-                if(onlinestatus == "Offline"){
-                    onlinestatusdiv.innerHTML = "Online";
-                }
                 
                 addRecivedMessage(data[1]);
             } else {
@@ -177,13 +173,11 @@ let sendmsg = document.getElementById("sendmsg");
 let msginput = document.getElementById("msginput");
 
 
-
-// chatnowbtn.addEventListener("click",()=>{
-//     msg.innerHTML += '<div class="w-auto bg-blue-700 text-white rounded-r-lg rounded-tl-lg p-2 float-left mr-20 my-3 ml-2">how are you</div>'
-//     msg.scrollTo(0, msg.scrollHeight);
-// })
-
 function addRecivedMessage(msg1) {
+    let onlinestatusdiv = document.getElementById("onlinestatus");
+    if(onlinestatus == "Offline"){
+        onlinestatusdiv.innerHTML = "Online";
+    }
     let msg = document.getElementById("msg");
     msg.innerHTML += ` <div class="w-full flex justify-start"><span class="w-auto bg-[${widgetColor}] text-white rounded-r-lg rounded-tl-lg p-2 mr-20 my-3 ml-2">${msg1}</span></div>`
 
