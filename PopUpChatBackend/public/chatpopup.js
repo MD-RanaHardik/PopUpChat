@@ -56,18 +56,31 @@ async function GetCurruntUserIp() {
 
         socket.on(ipaddres.replaceAll(".", ":"), (msg1) => {
 
-            let msg = document.getElementById("msg");
-            
+           
 
             let data = msg1.split("|||")
             if (data[0] == "Admin") {
+               
                 
-                addRecivedMessage(data[1]);
+                if(data[1] === `${"EndChat=="+ipaddres.replaceAll(".",":")}`){
+                    let inputs = document.getElementById("inputs");
+                    let chatend = document.getElementById("chatend");
+                    inputs.remove();
+                    chatend.classList.remove("hidden");
+
+                }else{
+
+                    addRecivedMessage(data[1]);
+                }
+                
+                
+               
             } else {
                 addSendeMessage(data[1]);
+                
             }
             playPause();
-            msg.scrollTo(0, msg.scrollHeight);
+            
         })
     }).catch((e) => {
         console.log(e);
@@ -134,7 +147,7 @@ function RenderChatPopUp(color) {
 
 
             </div>
-            <div class="h-screen w-full overflow-y-scroll pb-20 bg-white" id="msg" >
+            <div class="h-96 w-full overflow-y-scroll pb-20 bg-white" id="msg" >
 
             </div>
             <div class="p-4 fixed bottom-0 w-full bg-blue-100">
@@ -148,9 +161,15 @@ function RenderChatPopUp(color) {
 
                 </form>
                 </div>
-                <button id="chatnowbtn" onclick="ChatNowBtn()"
+            <button id="chatnowbtn" onclick="ChatNowBtn()"
                     class=" bg-[${color}] text-white font-semibold w-full py-2 rounded-xl ">Chat
                     Now</button>
+            <div id="chatend" class="hidden">
+                <p class="text-lg font-semibold text-center">Chat ended by Admin</p>
+                <p class="text-sm text-center">Refresh to start to new chat</p>
+            </div>
+
+            
             </div>
         </div>
 
@@ -186,11 +205,13 @@ function addRecivedMessage(msg1) {
     let msg = document.getElementById("msg");
     msg.innerHTML += ` <div class="w-full flex justify-start"><span class="w-auto bg-[${widgetColor}] text-white rounded-r-lg rounded-tl-lg p-2 mr-20 my-3 ml-2">${msg1}</span></div>`
 
+    msg.scrollTo(0, msg.scrollHeight);
 }
 
 function addSendeMessage(msg1) {
     let msg = document.getElementById("msg");
     msg.innerHTML += ` <div class="w-full  flex justify-end"><span class="w-auto bg-[${widgetColor}] text-white rounded-l-lg rounded-tr-lg p-2 ml-20 my-3 mr-2">${msg1}</span></div>`
+    msg.scrollTo(0, msg.scrollHeight);
 }
 
 

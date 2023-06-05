@@ -22,7 +22,7 @@ export default function HomePage() {
     
   }, [])
 
-  socket.on((property_id != "") ? `${property_id}::liveuser` : "nothing",(msg)=>{
+  socket.on((property_id != "" && property_id != null) ? `${property_id}::liveuser` : "nothing",(msg)=>{
     setLiveUserCount(liverusercount+1);
    
   })

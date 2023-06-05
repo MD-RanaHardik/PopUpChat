@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import { ChatModel, PropertyModel, UserModel, WidgetModel } from "./models.js"
+import { io } from "../src/main.js";
 
 export const getAllData = async (email) => {
     let userdata = await UserModel.find().populate([{
@@ -218,6 +219,19 @@ export const updateProperty = async (id,data)=> {
     } catch (error) {
       console.log(error);
       return "Failed to update property";
+    }
+  }
+
+  export const endChat = async (id,ip)=> {
+    try {
+      await PropertyModel.updateOne({_id:id},{$unset : { ["Chat."+ip] : 1} } );
+      let newmessage = `Admin|||${"EndChat=="+ ip}|||${new Date()}`;
+      io.emit(ip,newmessage);
+      return "Chat deleted";
+
+    } catch (error) {
+      console.log(error);
+      return "Failed to delete chat";
     }
   }
 

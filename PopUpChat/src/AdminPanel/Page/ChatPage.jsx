@@ -7,21 +7,21 @@ import { useState } from "react";
 
 export default function ChatPage() {
 
-    let [chatdata,setChatData] = useState({ip:"",widget_id:"",is_chat_started:false,property_id:""})
-   
+    let [chatdata, setChatData] = useState({ ip: "", widget_id: "", is_chat_started: false, property_id: "", tempChat: [] })
+
 
     return (
         <>
-        
-        <div className="grid grid-cols-3 gap-5 col-span-5 p-5 h-screen">
-            <div className="col-span-1">
-                <MessageCom chatdata={chatdata} chatsetter={setChatData} />
+
+            <div className="grid grid-cols-3 gap-5 col-span-5 p-5 h-screen">
+                <div className="col-span-1">
+                    <MessageCom chatdata={chatdata} chatsetter={setChatData} />
+                </div>
+                <div className="col-span-2">
+                    <LiveChats chatdata={chatdata} chatsetter={setChatData} />
+                </div>
             </div>
-            <div className="col-span-2">
-                <LiveChats chatdata={chatdata} chatsetter={setChatData} />
-            </div>
-        </div>
-        
+
         </>
     )
 }
