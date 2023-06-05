@@ -3,8 +3,9 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import HeaderCom from "../Components/HeaderCom";
 import SidebarCom from "../Components/SidebarCom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUserData, getUserEmail } from "../../State/Actions/adminDataAction";
+import { FaBeer } from 'react-icons/fa';
 
 
 export default function LayoutPage() {
@@ -15,33 +16,51 @@ export default function LayoutPage() {
   const locl = useLocation();
   const navigate = useNavigate();
 
+
+  const [theme, setTheme] = useState(null);
+
+  useEffect(() => {
+    if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+      setTheme('dark');
+    }
+    else {
+      setTheme('light');
+    }
+  }, [])
+
+  useEffect(() => {
+    console.log("theme mode run");
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
+  const handleThemeSwitch = () => {
+    console.log("sddsdsdsdsd")
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+
+
+
+
+
   useEffect(()=>{
     dispacher(getUserEmail());
-    // console.log("======",(userdata.loggedin_user == ""));
     dispacher(getUserData(userdata.loggedin_user));
-    
-
-  
-    // navigate("/?pdfdfdf")
-    console.log("url changes")
-    
+        
   },[dispacher,locl.search])
 
-  // if(Object.keys(admindata).length != 0){
-  //   // console.log(Object.keys(admindata.property)[0]);
-  //   navigate(`/?property_id=${Object.keys(admindata.property)[0]}`)
-
-  //   // console.log("sdsdsd",Object.keys(admindata.data.property));
-  // }else{
-  //   console.log("nulllllll")
-  // }
-
+ 
  
 
   return (
    
-   <div className="bg-blue-50">
-   
+   <div className="bg-blue-50 dark:bg-slate-900">
+    
+    <button onClick={()=>{handleThemeSwitch()}}>mode</button>
     <HeaderCom />
         <div className="grid grid-cols-6 h-screen">
             <SidebarCom />

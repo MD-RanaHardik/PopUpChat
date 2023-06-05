@@ -86,7 +86,7 @@ export default function MessageCom({ chatdata, chatsetter }) {
             <audio id="audio">
                 <source src="button-124476.mp3" type="audio/mpeg" />
             </audio>
-            <h1 className="text-2xl font-semibold mb-2 text-slate-700">Message </h1>
+            <h1 className="text-2xl font-semibold mb-2 text-slate-700 dark:text-slate-300">Message </h1>
             <div className="shadow-lg relative" id="chat" >
 
                 {
@@ -104,10 +104,10 @@ export default function MessageCom({ chatdata, chatsetter }) {
                             <div className="flex">
                                 <img className="rounded-full h-14 w-14 my-auto" src="https://static.vecteezy.com/system/resources/previews/011/381/911/original/male-customer-service-3d-cartoon-avatar-portrait-png.png" alt="not found" />
                                 <div className="my-auto mr-2 w-full">
-                                    <p className="font-semibold text-lg ml-2 text-white line-clamp-1 text-ellipsis">{chatdata.widget_id}</p>
+                                    <p className="font-semibold text-lg ml-2 text-white line-clamp-1 text-ellipsis dark:text-slate-300">{chatdata.widget_id}</p>
                                     <div className="flex mt-1">
                                         <span className="h-2 w-2 rounded-full bg-white animate-ping my-auto mr-2"></span>
-                                        <p className="text-xs text-white line-clamp-1 text-ellipsis">{chatdata.ip}</p>
+                                        <p className="text-xs text-white line-clamp-1 text-ellipsis dark:text-slate-300">{chatdata.ip}</p>
                                     </div>
                                 </div>
 
@@ -120,7 +120,7 @@ export default function MessageCom({ chatdata, chatsetter }) {
 
 
                 </div>
-                <div className="h-80 w-full overflow-y-scroll pb-20 flex flex-col" id="msg">
+                <div className="h-80 w-full overflow-y-scroll pb-20 flex flex-col dark:bg-slate-800" id="msg">
 
                     {
                         (chatdata.widget_id != "" && chatdata.ip != "") &&
@@ -163,7 +163,7 @@ export default function MessageCom({ chatdata, chatsetter }) {
                     </div> */}
 
                 </div>
-                <div className="p-2  bottom-0 w-full bg-blue-100">
+                <div className="p-2  bottom-0 w-full bg-blue-100 dark:bg-slate-700" >
 
                     {
                         (chatdata.widget_id != "" && chatdata.ip != "") ?
@@ -172,7 +172,7 @@ export default function MessageCom({ chatdata, chatsetter }) {
                                 <button onClick={() => { handleSendMessageEvent() }} id="sendmsg" className="h-10 w-11  bg-blue-900 ml-1  hover:bg-blue-950 rounded-lg"><img className="p-2" src="https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png" alt="not" /></button>
                                 <button className="my-auto" onClick={() => { setPopUpMenu(!popupmenu) }} ><img className="h-7 w-8 my-auto" src="https://img.icons8.com/material/100/1e3a8a/menu-2--v1.png" alt="menu-2--v1" /></button>
 
-                            </div> : <p className="text-center font-medium">Click on chat now to start chat</p>
+                            </div> : <p className="text-center font-medium dark:text-slate-300">Click on chat now to start chat</p>
                     }
 
 

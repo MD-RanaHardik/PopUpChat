@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { socket } from "../../socket";
 import { getUserData } from "../../State/Actions/adminDataAction";
-
+import {IoMdNotifications} from "react-icons/io"
 export default function LiveChats({ chatdata, chatsetter }) {
 
   const dispacher = useDispatch();
@@ -66,9 +66,8 @@ export default function LiveChats({ chatdata, chatsetter }) {
       <audio id="audio">
         <source src="Vintage-bell-ringtone.mp3" type="audio/mpeg" />
       </audio>
-      <button onClick={() => { playPause() }}>Test</button>
-      <h1 className="text-2xl font-semibold mb-2 text-slate-700">Chats</h1>
-      <div className="shadow-lg h-96  p-2 overflow-y-scroll ">
+      <h1 className="text-2xl font-semibold mb-2 text-slate-700 dark:text-slate-300">Chats</h1>
+      <div className="shadow-lg h-96  p-2 overflow-y-scroll dark:bg-slate-800 ">
         {
           (admindata != undefined) && (admindata.property != undefined) && (admindata.property[property_id] != undefined) &&
 
@@ -114,18 +113,18 @@ function ChatWidget({ id, ip, chatid, chatsetter, property_id, chatdata }) {
 
 
 
-  return <div className="grid grid-cols-5 m-5 bg-blue-100 p-3  drop-shadow-md rounded-md">
+  return <div className="grid grid-cols-5 m-5 bg-blue-100 p-3  drop-shadow-md rounded-md dark:bg-slate-900">
     <div className="flex col-span-3">
       <img className="h-10 w-10" src="https://img.icons8.com/3d-fluency/94/user-male-circle.png" alt="person-male" />
       <div className="ml-3">
-        <p className="text-blue-950 font-semibold ">Visitor {id}</p>
-        <p className="text-blue-950 text-xs break-words ">{ip}</p>
+        <p className="text-blue-950 font-semibold dark:text-slate-300">Visitor {id}</p>
+        <p className="text-blue-950 text-xs break-words dark:text-slate-300">{ip}</p>
       </div>
 
     </div>
     <div className="col-span-1 mx-auto my-auto">
       {
-        (newmsgCount > 0) && <div className="rounded-full bg-white flex px-4 py-1 "><img className="h-6 w-6 my-auto mr-2" src="https://img.icons8.com/glyph-neue/64/1e3a8a/appointment-reminders.png" alt="external-notification-time-and-date-yogi-aprelliyanto-glyph-yogi-aprelliyanto" />{newmsgCount}</div>
+        (newmsgCount > 0) && <div className="rounded-full bg-white flex px-4 py-1 dark:bg-slate-700 dark:text-slate-300"><IoMdNotifications className="my-auto h-6 w-6 dark:text-slate-300 text-blue-900" />{newmsgCount}</div>
       }
 
 

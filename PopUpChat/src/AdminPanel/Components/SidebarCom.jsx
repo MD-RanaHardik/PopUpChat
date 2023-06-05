@@ -26,8 +26,8 @@ export default function SidebarCom() {
   
   return (
     <>
-        <div className=" bg-white h-full  col-span-1 px-3 py-3 ">
-            <h2 className="font-bold text-blue-950">Properties</h2>
+        <div className=" bg-white h-full  col-span-1 px-3 py-3 dark:bg-slate-800">
+            <h2 className="font-bold text-blue-950 dark:text-slate-300">Properties</h2>
             <hr  className="text-blue-900 my-3"/>
 
             {
