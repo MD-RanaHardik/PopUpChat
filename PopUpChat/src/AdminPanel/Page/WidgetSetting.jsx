@@ -63,7 +63,7 @@ export default function WidgetSetting() {
 
 
     return (
-        <div className="col-span-5 p-5">
+        <div className="col-span-5 p-5 h-screen">
 
             <h2 className="text-2xl font-semibold text-blue-900 mb-3 flex my-auto dark:text-slate-300"><MdWidgets className="h-7 w-7 text-blue-900 hover:text-slate-700 dark:text-slate-300 dark:hover:text-slate-600 mr-3 my-auto" /> Widget Setting</h2>
             <hr></hr>

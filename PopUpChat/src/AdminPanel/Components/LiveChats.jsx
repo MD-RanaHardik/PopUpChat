@@ -74,7 +74,7 @@ export default function LiveChats({ chatdata, chatsetter }) {
           (admindata.property[property_id]["Chat"] != undefined) &&
           Object.keys(admindata.property[property_id]["Chat"]).map((data, index) => {
             if (!admindata.property[property_id]["Chat"][data]["is_completed"]) {
-              return <ChatWidget key={index} chatdata={chatdata} id={index} ip={data} property_id={property_id} chatsetter={chatsetter} chatid={admindata.property[property_id]["Chat"][data]["_id"]} />
+              return <ChatWidget key={index} chatdata={chatdata} id={index+1} ip={data} property_id={property_id} chatsetter={chatsetter} chatid={admindata.property[property_id]["Chat"][data]["_id"]} />
             }
           }
           )
@@ -124,7 +124,7 @@ function ChatWidget({ id, ip, chatid, chatsetter, property_id, chatdata }) {
     </div>
     <div className="col-span-1 mx-auto my-auto">
       {
-        (newmsgCount > 0) && <div className="rounded-full bg-white flex px-4 py-1 dark:bg-slate-700 dark:text-slate-300"><IoMdNotifications className="my-auto h-6 w-6 dark:text-slate-300 text-blue-900" />{newmsgCount}</div>
+        (newmsgCount > 0) && <div className="rounded-full bg-white flex px-4 py-1 dark:bg-slate-700 dark:text-slate-300"><IoMdNotifications className="my-auto h-6 w-6 dark:text-slate-300 text-blue-900    " />{newmsgCount}</div>
       }
 
 

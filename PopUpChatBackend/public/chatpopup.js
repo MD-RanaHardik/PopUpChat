@@ -31,6 +31,7 @@ let propertyID;
 let widget_ID;
 let ipaddres;
 let onlinestatus="Offline";
+let visitor_country="";
 
 
 
@@ -44,10 +45,35 @@ async function GetCurruntUserIp() {
         mode: 'cors',
         method: 'GET',
     }).then((res) => res.json()).then((data) => {
+
+
         if (localStorage.getItem("popupchatid") == null) {
+            console.log("null  ==========")
             localStorage.setItem("popupchatid", crypto.randomUUID())
             ipaddres = data.ip + `=${localStorage.getItem("popupchatid")}`;
+            visitor_country= data.country;
+
+            socket.on("connect", () => {
+                console.log("coonnect  ")
+                if (localStorage.getItem("isKnownUser") == null) {
+                    socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::liveuser`);
+                    localStorage.setItem("isKnownUser",crypto.randomUUID())
+                }
+                
+            });
+
+            
+            
+
+            socket.on("disconnect", () => {
+                console.log("disconnect ")
+                socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::offlineuser`);
+              });
+
+            
+            
         } else {
+            console.log("not null  ==========")
             ipaddres = data.ip + `=${localStorage.getItem("popupchatid")}`;
         }
         console.log(ipaddres);
@@ -101,8 +127,12 @@ async function StartChatIo(property_ID) {
             console.log(data[0]["Property_status"]);
             propertyName = data[0]["Property_name"]
             propertyID = property_ID;
-            widgetColor = data[0]["Widget"]["Widget_color"];
-            socket.emit("liveuseremit",`${propertyID}::liveuser`);
+            widgetColor = data[0]["Widget"]["Widget_color"];  
+            
+            if (localStorage.getItem("isKnownUser") == null) {
+                socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::liveuser`);
+                localStorage.setItem("isKnownUser",crypto.randomUUID())
+            }
             
             RenderChatPopUp(data[0]["Widget"]["Widget_color"]);
 
@@ -249,6 +279,8 @@ function CloseBtn() {
     chatio.style = "";
     chatimg.classList.remove("hidden")
     chatio.classList.add("animate-bounce");
+    localStorage.removeItem("isKnownUser");
+    socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::offlineuser`);
     socket.disconnect();
 }
 
@@ -393,6 +425,7 @@ async function SendMessageToApi(message) {
 
 
 if (document.currentScript.getAttribute('id') != null) {
+    propertyID = document.currentScript.getAttribute('id');
     StartChatIo(document.currentScript.getAttribute('id'));
 } else {
     alert("ID required to start chat");

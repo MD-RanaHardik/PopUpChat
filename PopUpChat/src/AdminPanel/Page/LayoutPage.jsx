@@ -58,11 +58,10 @@ export default function LayoutPage() {
 
   return (
    
-   <div className="bg-blue-50 dark:bg-slate-900">
+   <div className="bg-blue-50 dark:bg-slate-900 h-full">
     
-    <button onClick={()=>{handleThemeSwitch()}}>mode</button>
-    <HeaderCom />
-        <div className="grid grid-cols-6 h-screen">
+    <HeaderCom theme={theme} setTheme={handleThemeSwitch} />
+        <div className="grid grid-cols-6 h-full">
             <SidebarCom />
             <Outlet />
         </div>

@@ -50,6 +50,6 @@ export default function SidebarCom() {
 }
 
 function PropertyWidget({property_id,title,selectedproperty_id}){
-  console.log(selectedproperty_id);
+  
   return <NavLink to={`?property_id=${property_id}`}  className="block text-white py-3 bg-blue-900 rounded-lg font-semibold my-3 mx-2 pl-2 hover:bg-blue-950 hover:cursor-pointer flex py-auto"  >{title} {(selectedproperty_id != null && selectedproperty_id == property_id)&& <img className="h-5 w-5 ml-3" src="https://img.icons8.com/ios-filled/100/FFFFFF/ok--v1.png" alt="ok--v1"/>} </NavLink>
 }

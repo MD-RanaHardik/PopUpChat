@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
   
   socket.on("liveuseremit",(msg)=>{
     console.log(msg);
-    io.emit(msg,`${msg} +++++++++++++`);
+    io.emit(`${msg.split("::")[2]}::liveuser`,msg);
   })
   
   socket.on("disconnect",()=>{

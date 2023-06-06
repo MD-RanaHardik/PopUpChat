@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react"
 import { FaHome } from "react-icons/fa";
@@ -11,7 +12,7 @@ import {FaMoon} from "react-icons/fa"
 
 
 
-export default function HeaderCom() {
+export default function HeaderCom({theme,setTheme}) {
     const loc = useLocation();
     const navigae = useNavigate();
     const admindata = useSelector(state =>state.adminData.data);
@@ -19,7 +20,7 @@ export default function HeaderCom() {
 
     const [property_id,setPropertyID] = useState("");
     const [selectedMenu,setSelectedMenu] = useState("Home");
-    const [themeChanger,setThemeChanger] =useState(false);
+    // const [themeChanger,setThemeChanger] =useState(theme);
 
     useEffect(()=>{
         
@@ -75,8 +76,8 @@ export default function HeaderCom() {
                             <NavLink to={`/widgetsetting?property_id=${property_id}`}><button  data-toggle="tooltip" data-placement="bottom" title="Widget setting" className={`mx-3 flex   px-4 py-1 rounded-full transition-all duration-500 ease-in-out  ${selectedMenu == "/widgetsetting" ? 'ring-1 ring-blue-900 dark:ring-slate-300' : ''}`}> <MdWidgets className="h-7 w-7 text-blue-900 hover:text-slate-700 dark:text-slate-300 dark:hover:text-slate-600" /> {(selectedMenu == "/widgetsetting") && <span className="text-blue-900 dark:text-slate-300 my-auto ml-2 transition-all">Widget Setting</span> } </button></NavLink>
                             <NavLink to={`/propertysetting?property_id=${property_id}`}><button  data-toggle="tooltip" data-placement="bottom" title="Property setting" className={`mx-3 flex   px-4 py-1 rounded-full transition-all duration-500 ease-in-out ${selectedMenu == "/propertysetting" ? 'ring-1 ring-blue-900 dark:ring-slate-300' : ''}`}> <RiFileSettingsFill className="h-7 w-7 text-blue-900 hover:text-slate-700 dark:text-slate-300 dark:hover:text-slate-600" />{(selectedMenu == "/propertysetting") &&  <span className="text-blue-900 dark:text-slate-300 my-auto ml-2 transition-all">Property Setting</span>} </button></NavLink>
                             <button onClick={()=>Logout()} data-toggle="tooltip" data-placement="bottom" title="Logout" className="mx-3 flex py-1" > <RiLogoutBoxRFill className="h-7 w-7 text-blue-900 hover:text-slate-700 dark:text-slate-300 dark:hover:text-slate-600 " /> </button>
-                            <div className="ring-1 ring-slate-300 w-16 h-8  rounded-full my-auto relative transition-all duration-1000 ease-in-out">
-                                <div className={`rounded-full bg-blue-900 h-8 w-8 ring-1  absolute transition-all duration-1000 ease-in-out  ${themeChanger ? "left-0" : "right-0"}`} onClick={()=>{setThemeChanger(!themeChanger)}}>{themeChanger ? <HiSun className="h-6 w-6 my-auto mx-auto dark:text-slate-300 text-white" /> : <FaMoon className="h-5 w-5 my-auto mx-auto dark:text-slate-300 text-white" />}</div>
+                            <div className="ring-1 ring-slate-300 w-12 h-6  rounded-full my-auto relative transition-all duration-1000 ease-in-out">
+                                <div className={`rounded-full bg-blue-900 h-6 w-6 ring-1  absolute transition-all duration-1000 ease-in-out  ${(theme == "light") ? "left-0" : "right-0"}`} onClick={()=>{setTheme()}}>{(theme == "light") ? <HiSun className="h-6 w-6 my-auto mx-auto dark:text-slate-300 text-white p-0.5" /> : <FaMoon className="h-5 w-5 my-auto mx-auto dark:text-slate-300 text-white p-0.5" />}</div>
                             </div>
                         </div>
                         
