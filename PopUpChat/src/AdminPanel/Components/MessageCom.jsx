@@ -38,6 +38,7 @@ export default function MessageCom({ chatdata, chatsetter }) {
     socket.on((chatdata.ip != "") ? chatdata.ip : "notingtorecive", (msg) => {
        
         playPause();
+        console.log(msg);
 
         // function urlify(text) {
         //     var urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -148,6 +149,8 @@ export default function MessageCom({ chatdata, chatsetter }) {
                 </div>
                 <div className="h-80 w-full overflow-y-scroll pb-20 flex flex-col dark:bg-slate-800" id="msg">
 
+                   
+
                     {
                         (chatdata.widget_id != "" && chatdata.ip != "") &&
 
@@ -214,7 +217,7 @@ export default function MessageCom({ chatdata, chatsetter }) {
 
 function UserChat({ msg }) {
     return <div className="flex justify-start">
-        <div className=" bg-blue-900  break-all text-white rounded-r-lg rounded-tl-lg p-2 mr-20 my-3 ml-2">{{msg}}</div>
+        <div className=" bg-blue-900  break-all text-white rounded-r-lg rounded-tl-lg p-2 mr-20 my-3 ml-2">{msg}</div>
     </div>
 }
 

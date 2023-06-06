@@ -66,8 +66,7 @@ export default function HeaderCom({theme,setTheme}) {
                     </h2>
                 </div>
                 <div className="flex">          
-                    {/* <NavLink to={"/?property_id=646e0c21eb04b792497da3f8"} style={isActive => ({border: isActive ? "1px solid black" : "0px"})} data-toggle="tooltip" data-placement="bottom" title="Home"  className=" h-8 w-8 mx-3 rounded-full hover:ring-1 hover:ring-blue-950 hover:rounded-sm "><img  src="https://img.icons8.com/sf-regular/110/172554/home.png" alt="home"/></NavLink> 
-                    <NavLink to={"/chat?property_id=646e0c21eb04b792497da3f8"} style={isActive => ({border: isActive ? "1px solid black" : "0px"})}  data-toggle="tooltip" data-placement="bottom" title="Home"  className=" h-8 w-8 mx-3 rounded-full hover:ring-1 hover:ring-blue-950 hover:rounded-sm "><img  src="https://img.icons8.com/sf-regular/110/172554/home.png" alt="home"/></NavLink>  */}
+                   
                     
                     {
                         (property_id != null) && <div className="my-auto flex">
