@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, redirect, useLocation, useNavigate } from "react-router-dom";
 import HeaderCom from "../Components/HeaderCom";
 import SidebarCom from "../Components/SidebarCom";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ export default function LayoutPage() {
   const [theme, setTheme] = useState(null);
 
   useEffect(() => {
+    
     if(window.matchMedia('(prefers-color-scheme: dark)').matches){
       setTheme('dark');
     }
@@ -42,6 +43,8 @@ export default function LayoutPage() {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
+  
+ 
 
 
 

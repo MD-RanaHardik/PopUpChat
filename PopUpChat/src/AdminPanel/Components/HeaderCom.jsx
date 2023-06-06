@@ -46,7 +46,7 @@ export default function HeaderCom({theme,setTheme}) {
     function Logout(){
         sessionStorage.removeItem("loginSession");
         setTimeout(() => {
-            navigae("/login");
+           return navigae("/login");
         }, 1000);
         
     }

@@ -35,6 +35,7 @@ let visitor_country="";
 
 
 
+
 var socket = io(API_HOST, { autoConnect: false });
 
 // https://www.trackip.net/ip?json
@@ -53,27 +54,28 @@ async function GetCurruntUserIp() {
             ipaddres = data.ip + `=${localStorage.getItem("popupchatid")}`;
             visitor_country= data.country;
 
-            socket.on("connect", () => {
-                console.log("coonnect  ")
-                if (localStorage.getItem("isKnownUser") == null) {
-                    socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::liveuser`);
-                    localStorage.setItem("isKnownUser",crypto.randomUUID())
-                }
+           
+            // socket.on("connect", () => {
+            //     console.log("coonnect  ")
+            //     if (localStorage.getItem("isKnownUser") == null) {
+            //         console.log("country ++++++++++ "+visitor_country);
+            //         socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::liveuser`);
+            //         localStorage.setItem("isKnownUser",crypto.randomUUID())
+            //     }
                 
+            // });
+
+            
+            socket.on("disconnect", () => {
+                console.log("disconnect ")
+                socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::offlineuser`);
             });
 
             
             
-
-            socket.on("disconnect", () => {
-                console.log("disconnect ")
-                socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::offlineuser`);
-              });
-
-            
-            
         } else {
-            console.log("not null  ==========")
+          
+            visitor_country= data.country;
             ipaddres = data.ip + `=${localStorage.getItem("popupchatid")}`;
         }
         console.log(ipaddres);
@@ -130,6 +132,7 @@ async function StartChatIo(property_ID) {
             widgetColor = data[0]["Widget"]["Widget_color"];  
             
             if (localStorage.getItem("isKnownUser") == null) {
+              
                 socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::liveuser`);
                 localStorage.setItem("isKnownUser",crypto.randomUUID())
             }

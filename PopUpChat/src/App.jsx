@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
 import { createContext, useState } from "react"
 import { socket } from "./socket"
@@ -40,24 +41,18 @@ function App() {
 
   function onEnter(pageToRedirect,defaultPage) {
     const isLoggedIn = sessionStorage.getItem('loginSession');
+    console.log(isLoggedIn);
     if (isLoggedIn != null) {
-      return <Navigate to={pageToRedirect} />
+      console.log("first")
+      return <Navigate to={pageToRedirect} replace />
     }else{
+      console.log(isLoggedIn,"sdsdsds");
       return defaultPage
     }
   }
 
-  
 
 
-  
-  // socket.on("connect",()=>{
-  //   console.log("connected")
-  // })
-
-  // socket.on("Test1",(msg)=>{
-  //   console.log(msg)
-  // })
  
   return (
     <GComtext.Provider value={showAlertMassage} >
@@ -72,7 +67,7 @@ function App() {
             <Route path="/newpassword" element={onEnter("/",<ChangePasswordPage />) } />
             
 
-            <Route path="/" element={<LayoutPage /> }>
+            <Route path="/" element={(sessionStorage.getItem('loginSession') == null) ? <Navigate to={"/login"} replace /> :<LayoutPage /> }>
                 <Route index element={<HomePage />}/>
                 <Route path="/chat" element={<ChatPage />}/>
                 <Route path="/propertysetting" element={<PropertySetting />}/>

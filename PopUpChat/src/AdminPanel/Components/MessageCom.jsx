@@ -8,6 +8,7 @@ import { API_HOST } from "../../setting";
 import { useDispatch, useSelector } from "react-redux";
 import { GComtext } from "../../App";
 import { getUserData } from "../../State/Actions/adminDataAction";
+import {GrMoreVertical} from "react-icons/gr"
 
 export default function MessageCom({ chatdata, chatsetter }) {
 
@@ -35,8 +36,24 @@ export default function MessageCom({ chatdata, chatsetter }) {
     }, [chatdata])
 
     socket.on((chatdata.ip != "") ? chatdata.ip : "notingtorecive", (msg) => {
-        console.log("recived msg", msg);
+       
         playPause();
+
+        // function urlify(text) {
+        //     var urlRegex = /(https?:\/\/[^\s]+)/g;
+        //     return text.replace(urlRegex, function(url) {
+        //       return '<a href="' + url + '">' + url + '</a>';
+        //     })
+        //     // or alternatively
+        //     // return text.replace(urlRegex, '<a href="$1">$1</a>')
+        //   }
+          
+        // var newmsg = msg.split("|||")[0] +"|||"+urlify(msg.split("|||")[1])+"|||"+msg.split("|||")[2]
+
+
+        // console.log(newmsg);
+
+
         setChats([...chats, msg]);
         messageContainer.scrollTo(0, messageContainer.scrollHeight);
 
@@ -44,10 +61,10 @@ export default function MessageCom({ chatdata, chatsetter }) {
 
 
 
-    async function handleSendMessageEvent() {
-        if (message != "") {
+    async function handleSendMessageEvent(msg=null) {
+        if (message != "" || msg !=null) {
 
-            let response = await axios.get(`${API_HOST}/client/message/Admin/${chatdata.widget_id}/${chatdata.ip}/${message}`);
+            let response = await axios.get(`${API_HOST}/client/message/Admin/${chatdata.widget_id}/${chatdata.ip}/${(msg == null)?encodeURIComponent(message):msg}`);
 
             messageContainer.scrollTo(0, messageContainer.scrollHeight);
             setMessage("");
@@ -80,6 +97,13 @@ export default function MessageCom({ chatdata, chatsetter }) {
 
     }
 
+    function sendGreetingMessage(){
+       
+
+        handleSendMessageEvent(`Welcome to our live chat service 👋 My name is ${admindata.data.Username}. How can I help you today?`)
+        setPopUpMenu(!popupmenu);
+    }
+
 
     return (
         <>
@@ -90,8 +114,10 @@ export default function MessageCom({ chatdata, chatsetter }) {
             <div className="shadow-lg relative" id="chat" >
 
                 {
-                    (popupmenu) && <div className="transition-all p-5 h-20 w-36 rounded-lg bg-white drop-shadow-lg absolute right-2 bottom-16">
-                        <button onClick={() => { EndChat() }} className="text-red-900 font-semibold w-full py-1 text-sm transition-all rounded-sm  hover:bg-red-200">End chat</button>
+                    (popupmenu) && <div className="transition-all p-5   rounded-lg bg-white drop-shadow-lg absolute right-2 bottom-16 dark:bg-slate-900 dark:ring-1 dark:ring-slate-600">
+                        <button onClick={() => { EndChat() }} className="text-left px-1 my-2 text-red-900 font-semibold w-full py-1 text-sm transition-all rounded-sm  hover:bg-red-200 dark:text-slate-300 dark:hover:text-red-900">End chat</button>
+                        
+                        <button onClick={() => { sendGreetingMessage() }} className="text-left px-1 my-2 text-blue-900 font-semibold w-full py-1 text-sm transition-all rounded-sm  hover:bg-blue-100 dark:text-slate-300 dark:hover:text-blue-900">Send Greeting Message</button>
                     </div>
                 }
 
@@ -168,9 +194,9 @@ export default function MessageCom({ chatdata, chatsetter }) {
                     {
                         (chatdata.widget_id != "" && chatdata.ip != "") ?
                             <div className="flex w-full " id="inputs">
-                                <input type="text" value={message} onKeyDown={(e) => { SendMessageOnEnter(e) }} onChange={(e) => { setMessage(e.target.value) }} id="msginput" placeholder="Message" className="placeholder-slate-700 w-full text-blue-950 py-2 px-2 rounded-lg bg-white ring-1 ring-slate-100 outline-none" />
-                                <button onClick={() => { handleSendMessageEvent() }} id="sendmsg" className="h-10 w-11  bg-blue-900 ml-1  hover:bg-blue-950 rounded-lg"><img className="p-2" src="https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png" alt="not" /></button>
-                                <button className="my-auto" onClick={() => { setPopUpMenu(!popupmenu) }} ><img className="h-7 w-8 my-auto" src="https://img.icons8.com/material/100/1e3a8a/menu-2--v1.png" alt="menu-2--v1" /></button>
+                                <input type="text" value={message} onKeyDown={(e) => { SendMessageOnEnter(e) }} onChange={(e) => { setMessage(e.target.value) }} id="msginput" placeholder="Message" className="placeholder-slate-700 w-full text-blue-950 py-2 px-2 rounded-lg bg-white ring-1 ring-slate-100 outline-none dark:ring-slate-600 dark:text-slate-300 dark:bg-slate-800 dark:placeholder:text-slate-300" />
+                                <button onClick={() => { handleSendMessageEvent() }} id="sendmsg" className="h-10 w-11  bg-blue-900 ml-1.5  hover:bg-blue-950 rounded-lg"><img className="p-2" src="https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png" alt="not" /></button>
+                                <button className="my-auto" onClick={() => { setPopUpMenu(!popupmenu) }} ><GrMoreVertical className="h-7 w-7 text-blue-900 hover:text-slate-700 dark:text-slate-300 dark:hover:text-slate-600" /></button>
 
                             </div> : <p className="text-center font-medium dark:text-slate-300">Click on chat now to start chat</p>
                     }
@@ -188,7 +214,7 @@ export default function MessageCom({ chatdata, chatsetter }) {
 
 function UserChat({ msg }) {
     return <div className="flex justify-start">
-        <div className=" bg-blue-900  break-all text-white rounded-r-lg rounded-tl-lg p-2 mr-20 my-3 ml-2">{msg}</div>
+        <div className=" bg-blue-900  break-all text-white rounded-r-lg rounded-tl-lg p-2 mr-20 my-3 ml-2">{{msg}}</div>
     </div>
 }
 

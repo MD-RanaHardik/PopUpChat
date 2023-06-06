@@ -37,7 +37,7 @@ export default function HomePage() {
   return (
    
     <div className="col-span-5 h-full p-10">
-       <button onClick={()=>dispach(setLiveVisitor())}>test</button>
+       
       <h2 className="text-2xl font-bold text-blue-950 dark:text-slate-300">Welcome to Chat.io</h2>
       <p className="text-blue-900 text-sm font-medium dark:text-slate-300">grow your buisness with chat.io</p>
 
