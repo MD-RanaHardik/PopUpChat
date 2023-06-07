@@ -1,48 +1,447 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head >
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <!-- <script src="https://cdn.tailwindcss.com"></script>  -->
 
-     <!-- <style>
-        #msg::-webkit-scrollbar {
-            width: 0;
-            background: transparent;
+    <style>
+      * {
+        padding: 0%;
+        margin: 0%;
+      }
+      #msg::-webkit-scrollbar {
+        width: 0;
+        background: transparent;
+      }
+    </style>
+  </head>
 
-        }
-    </style> -->
+  <body class="bg-slate-950 animate-bounce">
+    <!-- <audio id="audio">
+      <source
+        src="https://cdn.pixabay.com/audio/2022/10/30/audio_f5dbe8213e.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+    <div>
+      <button
+        id="close"
+        onclick="CloseBtn()"
+        class=""
+        style="
+          display: none;
+          float: right;
+          color: white;
+          width: 2rem;
+          height: 2rem;
+          background-color: '${color}';
+          border-radius: 100%;
+          padding: 0.25rem;
+          margin-right: 1.25rem;
+        "
+      >
+        <img
+          src="https://img.icons8.com/ios-filled/50/FFFFFF/delete-sign--v1.png"
+          alt="delete-sign--v1"
+        />
+      </button>
 
-</head>
+      <div
+        class=""
+        style="
+            background-color: '${color}';
+          overflow: hidden;
+          position: fixed;
+          right: 0;
+          bottom: 0;
+          margin: 1.5rem;
+          width: 3.5rem;
+          height: 3.5rem;
+          border-radius: 9999px;
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+            0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          drop-shadow: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04))
+            drop-shadow(0 4px 3px rgba(0, 0, 0, 0.1));
+        "
+        id="chatio"
+        onclick="ChatIo()"
+      >
+        <img
+          src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/512/FFFFFF/external-chat-social-media-ui-tanah-basah-glyph-tanah-basah.png"
+          class=""
+          style="padding: 0.5rem;"
+          alt="not"
+          id="chatimg"
+        />
 
-<body class="bg-slate-950">
-    
-   
+        <div class="" id="chat">
+          <div class="" 
+          style="background-color: '${color}'; display: flex; 
+          padding-left: 0.75rem; 
+          justify-content: space-between; 
+          height: 5rem; " >
+
+            <div class="" style="display: flex; ">
+              <img
+                class=""
+                style="width: 3.5rem;
+                height: 3.5rem; 
+                border-radius: 9999px; margin-top: auto; margin-bottom: auto;"
+                src="https://static.vecteezy.com/system/resources/previews/011/381/911/original/male-customer-service-3d-cartoon-avatar-portrait-png.png"
+                alt="not found"
+              />
+              <div class="" style="margin-top: auto; margin-bottom: auto;">
+                <p class="" 
+                style="color: #ffffff; 
+                font-size: 1.125rem;
+                line-height: 1.75rem; 
+                font-weight: 600; 
+                text-align: center; ">
+                  ${propertyName}
+                </p>
+                <div class="" style="display: flex; margin-top: 0.25rem; ">
+                  <span
+                    class=""
+                    style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem; 
+                    background-color: #ffffff; 
+                    width: 0.5rem; 
+                    height: 0.5rem; 
+                    border-radius: 9999px; "
+                  ></span>
+                  <p class="" style="font-size: 0.75rem;
+                  line-height: 1rem; color: #ffffff; " id="onlinestatus">
+                    ${onlinestatus}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class=""
+            style="overflow-y: scroll; 
+            padding-bottom: 5rem; 
+            background-color: #ffffff; 
+            width: 100%; 
+            height: 24rem; 
+            "
+            id="msg"
+          ></div>
+          <div class="" style="position: fixed; 
+          bottom: 0; 
+          padding: 1rem; 
+          background-color: #DBEAFE; 
+          width: 100%; ">
+            <div class="" style="display: none; 
+            display: flex; 
+            width: 100%; " id="inputs">
+              <form
+                onsubmit="SendMessage(event)"
+                class=""
+                style="display: flex; 
+                justify-content: space-between; 
+                width: 100%; "
+              >
+                <input
+                  type="text"
+                  id="msginput"
+                  placeholder="Message"
+                  class=""
+                  style="padding-top: 0.5rem;
+                  padding-bottom: 0.5rem; 
+                  padding-left: 0.5rem;
+                  padding-right: 0.5rem; 
+                  background-color: #ffffff; 
+                  width: 100%; 
+                  border-radius: 0.5rem; 
+                  box-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color); 
+                  outline: 0; "
+                  required
+                />
+
+                <input
+                  type="submit"
+                  value=""
+                  class=""
+                  style="margin-left: 0.75rem; 
+                  background-position: center; 
+                  background-repeat: no-repeat; 
+                  width: 3rem; 
+                  height: 2.5rem; 
+                  border-radius: 9999px; 
+                  background: url('https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png');"
+                />
+              </form>
+            </div>
+            <button
+              id="chatnowbtn"
+              onclick="ChatNowBtn()"
+              class=""
+              style="padding-top: 0.5rem;
+              padding-bottom: 0.5rem; 
+              color: #ffffff; 
+              font-weight: 600; 
+              width: 100%; 
+              border-radius: 0.75rem; 
+              background: '${color};'"
+            >
+              Chat Now
+            </button>
+            <div id="chatend" class="">
+              <p class="" style="font-size: 1.125rem;
+              line-height: 1.75rem; 
+              font-weight: 600; 
+              text-align: center; ">
+                Chat ended by Admin
+              </p>
+              <p class="" style="font-size: 0.875rem;
+              line-height: 1.25rem; 
+              text-align: center; ">Refresh to start to new chat</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
 
     <!-- <script type="text/javascript" src="https://popupchat.onrender.com/chatpopup.min.js" id="6479d5e3ad911d76248c1d2f" > </script> -->
 
     <!-- <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script> -->
 
-    <script src="chatpopup.js" id="646e0c21eb04b792497da3f8">
+    <!-- <script src="chatpopup.js" id="646e0c21eb04b792497da3f8">
         
-    </script>
+    </script> -->
 
     <!-- <script>
         function SendMessage(event){
             event.preventDefault();
             console.log("first")
 
-        }
+            }
     </script> -->
 
+    <div
+      class=""
+      style="
+        z-index: 999999999999999999999999999;
+        position: fixed;
+        bottom: 4%;
+        right: 2%;
+      "
+    >
+      <div
+        style="
+        display: none;
+          overflow: hidden;
+          height: 450px;
+          width: 300px;
+          
+          border-radius: 10px;
+        "
+        id="chatio"
+      >
+        <div
+          class=""
+          style="
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            background-color: blue;
+            height: 15%;
+            width: 100%;
+          "
+        >
+          <img
+            style="padding: 2%"
+            src="https://static.vecteezy.com/system/resources/previews/011/381/911/original/male-customer-service-3d-cartoon-avatar-portrait-png.png"
+            alt="not found"
+          />
+          <div style="padding-top: 5%; width: 100%">
+            <p
+              style="
+                color: white;
+                padding-bottom: 1%;
+                font-size: 1.2rem;
+                font-weight: bold;
+              "
+            >
+              Hardik Minddeft
+            </p>
+            <p style="color: white">Online</p>
+          </div>
+        </div>
+
+        <div style="overflow-y: scroll; height: 70%; background-color: white">
+          <div style="display: flex; justify-content: flex-end">
+            <span
+              style="
+                max-width: 70%;
+                background-color: blue;
+                color: white;
+                padding: 3% 5% 3% 5%;
+                border-radius: 8px 8px 0px 8px;
+                margin: 5% 3% 5% 5%;
+              "
+            >
+              hello sdsdsdsd ssdsds sdsdsdsdsdsdsd
+            </span>
+          </div>
+
+          <div style="display: flex; justify-content: flex-start">
+            <span
+              style="
+                max-width: 70%;
+                background-color: blue;
+                color: white;
+                padding: 3% 5% 3% 5%;
+                border-radius: 8px 8px 8px 0px;
+                margin: 5% 3% 5% 5%;
+              "
+            >
+              hello sdsdsdsd ssdsds sdsdsdsdsdsdsd
+            </span>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end">
+            <span
+              style="
+                max-width: 70%;
+                background-color: blue;
+                color: white;
+                padding: 3% 5% 3% 5%;
+                border-radius: 8px 8px 0px 8px;
+                margin: 5% 3% 5% 5%;
+              "
+            >
+              hello sdsdsdsd ssdsds sdsdsdsdsdsdsd
+            </span>
+          </div>
+
+          <div style="display: flex; justify-content: flex-start">
+            <span
+              style="
+                max-width: 70%;
+                background-color: blue;
+                color: white;
+                padding: 3% 5% 3% 5%;
+                border-radius: 8px 8px 8px 0px;
+                margin: 5% 3% 5% 5%;
+              "
+            >
+              hello sdsdsdsd ssdsds sdsdsdsdsdsdsd
+            </span>
+          </div>
+        </div>
+
+        <!-- Chat input and buttons -->
+        <div
+          style="background-color: rgb(219 234 254); height: 15%; padding: 4%"
+        >
+          <button id="chatnowbtn" onclick="ChatNowBtn()" style="background-color: blue; color: white;  width: 100%; padding: 10px 0px 10px 0px; font-size: 1rem; border-radius: 13px; border: none;">Chat now</button>
+          <div style="display: flex; display: none;" id="inputs">
+            <form onsubmit="SendMessage(event)" style="display: flex; width: 100%;">
+              <input
+                type="text"
+                placeholder="Message"
+                style="
+                  background-color: white;
+                  border: none;
+                  width: 100%;
+                  border-radius: 10px;
+                  padding: 5% 2% 5% 2%;
+                "
+              />
+              <input
+                type="submit"
+                value=""
+                style="
+                  width: 50px;
+                  height: 43px;
+                  background-color: blue;
+                  background-position: center;
+                  background-size: 30px;
+                  border: 0;
+                  margin-left: 3%;
+                  border-radius: 10px;
+                  background-repeat: no-repeat;
+                  background-image: url('https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png');
+                "
+              />
+            </form>
+          </div>
+
+          <div id="chatend" class="" style="display: none;">
+                    <p style="font-size: 1.125rem; line-height: 1.75rem; font-weight: 600; text-align: center; ">Chat ended by Admin</p>
+                    <p style="font-size: 0.875rem;line-height: 1.25rem; text-align: center; ">Refresh to start to new chat</p>
+                </div>
+        </div>
+      </div>
+
+      <button
+        style="
+          background-color: blue;
+          border: 0;
+          border-radius: 100%;
+          height: 50px;
+          width: 50px;
+          float: right;
+          margin-top: 5%;
+        "
+      >
+        <img
+          src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/512/FFFFFF/external-chat-social-media-ui-tanah-basah-glyph-tanah-basah.png"
+          class=""
+          style="height: 30px; width: 30px"
+          alt="not"
+          id="chatio" onclick="ChatIo()"
+        />
+      </button>
+    </div>
+
+
+    <script>
+        async function ChatNowBtn() {
+        let inputs = document.getElementById("inputs");
+        let chatnowbtn = document.getElementById("chatnowbtn");
+        
+        inputs.style.display = "flex"
+        chatnowbtn.style.display = "none";
     
+        // await StartNewChat();
+        // chatnowbtn.classList.add("hidden");
+        // inputs.classList.remove("hidden");
+        // addRecivedMessage("Welcome to Chat.io 👋");
+        // addRecivedMessage("How can i help you")
+
+        }
+
+
+        function ChatIo() {
+            let chatio = document.getElementById("chatio")
+            let chatimg = document.getElementById("chatimg");
+            let chat = document.getElementById("chat");
+            let closebtn = document.getElementById("close");
+
+
+            // console.log("click chat io")
+            // chatio.classList.remove("animate-bounce");
+            // chatimg.classList.add("hidden")
+            // chatio.style.borderRadius = "10px";
+            // chatio.style.height = "80%"
+            // chatio.style.width = "25%"
+            // chat.classList.remove("hidden");
+            // closebtn.classList.remove("hidden");
+
+            chatio.style.display = "block";
+
+
+        }
 
 
 
+    </script>
 
-</body>
 
+  </body>
 </html>

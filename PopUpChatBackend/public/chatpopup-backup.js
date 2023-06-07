@@ -1,50 +1,10 @@
-// var script1 = document.createElement("script");
-// // script1.type  = "text/javascript";
-// // script1.async = true;
-// script1.src = "https://cdn.tailwindcss.com";
-// // use this for linked script
-// document.head.appendChild(script1);
 
-document.head.innerHTML += `
-
-<style>
-        * {
-            padding: 0%;
-            margin: 0%;
-        }
-
-        .poppins{
-            font-family: 'Poppins', sans-serif;
-        }
-
-        #msg::-webkit-scrollbar {
-            width: 0;
-            background: transparent;
-        }
-
-        @keyframes bounce {
-            0%, 100% {
-              transform: translateY(-25%);
-              animationTimingFunction: cubic-bezier(0.8, 0, 1, 1);
-            }
-            50% {
-              transform: translateY(0);
-              animationTimingFunction: cubic-bezier(0, 0, 0.2, 1);
-            }
-          }; 
-</style>
-
-`;
-document.head.innerHTML += `
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
-
-
-
-`
-
+var script1 = document.createElement("script");
+// script1.type  = "text/javascript";
+// script1.async = true;
+script1.src = "https://cdn.tailwindcss.com";
+// use this for linked script
+document.head.appendChild(script1);
 
 
 /*!
@@ -59,7 +19,7 @@ document.head.innerHTML += `
 
 let API_HOST = "https://popupchat.onrender.com";
 
-// let API_HOST = "http://127.0.0.1:4000";
+// let API_HOST="http://127.0.0.1:4000";
 
 
 
@@ -70,8 +30,8 @@ let propertyName;
 let propertyID;
 let widget_ID;
 let ipaddres;
-let onlinestatus = "Offline";
-let visitor_country = "";
+let onlinestatus="Offline";
+let visitor_country="";
 
 
 
@@ -92,9 +52,9 @@ async function GetCurruntUserIp() {
             console.log("null  ==========")
             localStorage.setItem("popupchatid", crypto.randomUUID())
             ipaddres = data.ip + `=${localStorage.getItem("popupchatid")}`;
-            visitor_country = data.country;
+            visitor_country= data.country;
 
-
+           
             // socket.on("connect", () => {
             //     console.log("coonnect  ")
             //     if (localStorage.getItem("isKnownUser") == null) {
@@ -102,20 +62,20 @@ async function GetCurruntUserIp() {
             //         socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::liveuser`);
             //         localStorage.setItem("isKnownUser",crypto.randomUUID())
             //     }
-
+                
             // });
 
-
+            
             socket.on("disconnect", () => {
                 console.log("disconnect ")
-                socket.emit("liveuseremit", `${visitor_country}::${ipaddres}::${propertyID}::offlineuser`);
+                socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::offlineuser`);
             });
 
-
-
+            
+            
         } else {
-
-            visitor_country = data.country;
+          
+            visitor_country= data.country;
             ipaddres = data.ip + `=${localStorage.getItem("popupchatid")}`;
         }
         console.log(ipaddres);
@@ -124,31 +84,31 @@ async function GetCurruntUserIp() {
 
         socket.on(ipaddres.replaceAll(".", ":"), (msg1) => {
 
-
+           
 
             let data = msg1.split("|||")
             if (data[0] == "Admin") {
-
-
-                if (data[1] === `${"EndChat==" + ipaddres.replaceAll(".", ":")}`) {
+               
+                
+                if(data[1] === `${"EndChat=="+ipaddres.replaceAll(".",":")}`){
                     let inputs = document.getElementById("inputs");
                     let chatend = document.getElementById("chatend");
                     inputs.remove();
-                    chatend.style.display = "block";
+                    chatend.classList.remove("hidden");
 
-                } else {
+                }else{
 
                     addRecivedMessage(data[1]);
                 }
-
-
-
+                
+                
+               
             } else {
                 addSendeMessage(data[1]);
-
+                
             }
             playPause();
-
+            
         })
     }).catch((e) => {
         console.log(e);
@@ -169,14 +129,14 @@ async function StartChatIo(property_ID) {
             console.log(data[0]["Property_status"]);
             propertyName = data[0]["Property_name"]
             propertyID = property_ID;
-            widgetColor = data[0]["Widget"]["Widget_color"];
-
+            widgetColor = data[0]["Widget"]["Widget_color"];  
+            
             if (localStorage.getItem("isKnownUser") == null) {
-
-                socket.emit("liveuseremit", `${visitor_country}::${ipaddres}::${propertyID}::liveuser`);
-                localStorage.setItem("isKnownUser", crypto.randomUUID())
+              
+                socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::liveuser`);
+                localStorage.setItem("isKnownUser",crypto.randomUUID())
             }
-
+            
             RenderChatPopUp(data[0]["Widget"]["Widget_color"]);
 
         }
@@ -188,224 +148,68 @@ async function StartChatIo(property_ID) {
 
 
 
-// function RenderChatPopUp(color) {
-//     body.innerHTML += `
-//     <audio id="audio">
-//         <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_f5dbe8213e.mp3" type="audio/mpeg" />
-//         </audio>
-//     <div>
-//     <button id="close" onclick="CloseBtn()"
-//         class="hidden float-right text-white h-8 w-8 bg-[${color}] rounded-full p-2  mr-5 "><img
-//             src="https://img.icons8.com/ios-filled/50/FFFFFF/delete-sign--v1.png" alt="delete-sign--v1"></button>
-
-//         <div class="h-14 w-14 bg-[${color}] animate-bounce shadow-xl rounded-full fixed bottom-0 right-0 m-6 drop-shadow-lg hover:shadow-xl overflow-hidden "
-//             id="chatio" onclick="ChatIo()">
-//             <img src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/512/FFFFFF/external-chat-social-media-ui-tanah-basah-glyph-tanah-basah.png" class="p-2 " alt="not" id="chatimg">
-
-//         <div class="hidden" id="chat">
-//             <div class="h-20 bg-[${color}] flex pl-3 justify-between">
-//                 <div class="flex">
-//                     <img class="rounded-full h-14 w-14 my-auto"
-//                         src="https://static.vecteezy.com/system/resources/previews/011/381/911/original/male-customer-service-3d-cartoon-avatar-portrait-png.png"
-//                         alt="not found">
-//                     <div class="my-auto">
-//                         <p class="font-semibold text-lg text-center text-white">${propertyName}</p>
-//                         <div class="flex mt-1">
-//                             <span class="h-2 w-2 rounded-full bg-white animate-ping my-auto mr-2"></span>
-//                             <p class="text-xs text-white" id="onlinestatus">${onlinestatus}</p>
-//                         </div>
-//                     </div>
-//                 </div>
-
-
-
-//             </div>
-//             <div class="h-96 w-full overflow-y-scroll pb-20 bg-white" id="msg" >
-
-//             </div>
-//             <div class="p-4 fixed bottom-0 w-full bg-blue-100">
-//                 <div class="flex w-full hidden" id="inputs">
-
-//                 <form onsubmit="SendMessage(event)" class="flex w-full  justify-between">
-//                 <input type="text" id="msginput" placeholder="Message"
-//                                 class="placeholder-slate-700 w-full text-blue-950 py-2 px-2 rounded-lg bg-white ring-1 ring-slate-100 outline-none" required/>
-
-//                 <input type="submit" value="" class="h-10 w-12 ml-3 bg-[${color}] rounded-full bg-center bg-no-repeat bg-[length:30px_30px] bg-[url('https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png')]"  />
-
-//                 </form>
-//                 </div>
-//             <button id="chatnowbtn" onclick="ChatNowBtn()"
-//                     class=" bg-[${color}] text-white font-semibold w-full py-2 rounded-xl ">Chat
-//                     Now</button>
-//             <div id="chatend" class="hidden">
-//                 <p class="text-lg font-semibold text-center">Chat ended by Admin</p>
-//                 <p class="text-sm text-center">Refresh to start to new chat</p>
-//             </div>
-
-
-//             </div>
-//         </div>
-
-//     </div>
-// </div>
-// `
-// }
-
-
-
-
-
-
-
-
-// New code with coustom css start
-
-
 function RenderChatPopUp(color) {
     body.innerHTML += `
-    
-      <audio id="audio">
-        <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_f5dbe8213e.mp3" type="audiompeg" >
+    <audio id="audio">
+        <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_f5dbe8213e.mp3" type="audio/mpeg" />
         </audio>
+    <div>
+    <button id="close" onclick="CloseBtn()"
+        class="hidden float-right text-white h-8 w-8 bg-[${color}] rounded-full p-2  mr-5 "><img
+            src="https://img.icons8.com/ios-filled/50/FFFFFF/delete-sign--v1.png" alt="delete-sign--v1"></button>
 
-    <div class="" style="
-        z-index:2147483647 !important;
-        position: fixed !important;
-        bottom: 4% !important;
-        right: 2% !important;
-      ">
-        <div style="
-            z-index:2147483647 !important;
-            display: none !important;
-          overflow: hidden !important;
-          height: 450px !important;
-          width: 300px !important;
-          box-shadow: 0 3px 10px rgb(0 0 0 / 0.2) !important;
-          border-radius: 10px !important;
-          transition: 2s ease-in-out !important;
-        " id="chat">
-            <div class="" style="
-            display: flex !important;
-            overflow: hidden !important;
-            position: relative !important;
-            background-color: ${color} !important;
-            height: 15% !important;
-            width: 100% !important;
-          ">
-                <img style="padding: 2% !important"
-                    src="https://static.vecteezy.com/system/resources/previews/011/381/911/original/male-customer-service-3d-cartoon-avatar-portrait-png.png"
-                    alt="not found" />
-                <div style="padding-top: 3% !important; width: 100% !important">
-                    <p class="poppins" style="
-                color: white !important;
-                padding-bottom: 1% !important;
-                font-size: 1.2rem !important;
-                font-weight: bold !important;
-              ">
-                        ${propertyName}
-                    </p>
-                    <p class="poppins" style="color: white !important; font-size: 0.8rem !important;" id="onlinestatus">${onlinestatus}</p>
+        <div class="h-14 w-14 bg-[${color}] animate-bounce shadow-xl rounded-full fixed bottom-0 right-0 m-6 drop-shadow-lg hover:shadow-xl overflow-hidden "
+            id="chatio" onclick="ChatIo()">
+            <img src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/512/FFFFFF/external-chat-social-media-ui-tanah-basah-glyph-tanah-basah.png" class="p-2 " alt="not" id="chatimg">
+      
+        <div class="hidden" id="chat">
+            <div class="h-20 bg-[${color}] flex pl-3 justify-between">
+                <div class="flex">
+                    <img class="rounded-full h-14 w-14 my-auto"
+                        src="https://static.vecteezy.com/system/resources/previews/011/381/911/original/male-customer-service-3d-cartoon-avatar-portrait-png.png"
+                        alt="not found">
+                    <div class="my-auto">
+                        <p class="font-semibold text-lg text-center text-white">${propertyName}</p>
+                        <div class="flex mt-1">
+                            <span class="h-2 w-2 rounded-full bg-white animate-ping my-auto mr-2"></span>
+                            <p class="text-xs text-white" id="onlinestatus">${onlinestatus}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div style="overflow-y: scroll !important; height: 70% !important; background-color: white !important;" id="msg">
+
+
+            </div>
+            <div class="h-96 w-full overflow-y-scroll pb-20 bg-white" id="msg" >
+
+            </div>
+            <div class="p-4 fixed bottom-0 w-full bg-blue-100">
+                <div class="flex w-full hidden" id="inputs">
+               
+                <form onsubmit="SendMessage(event)" class="flex w-full  justify-between">
+                <input type="text" id="msginput" placeholder="Message"
+                                class="placeholder-slate-700 w-full text-blue-950 py-2 px-2 rounded-lg bg-white ring-1 ring-slate-100 outline-none" required/>
                 
+                <input type="submit" value="" class="h-10 w-12 ml-3 bg-[${color}] rounded-full bg-center bg-no-repeat bg-[length:30px_30px] bg-[url('https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png')]"  />
+
+                </form>
+                </div>
+            <button id="chatnowbtn" onclick="ChatNowBtn()"
+                    class=" bg-[${color}] text-white font-semibold w-full py-2 rounded-xl ">Chat
+                    Now</button>
+            <div id="chatend" class="hidden">
+                <p class="text-lg font-semibold text-center">Chat ended by Admin</p>
+                <p class="text-sm text-center">Refresh to start to new chat</p>
             </div>
 
-            <!-- Chat input and buttons -->
-            <div style="background-color: rgb(219 234 254) !important; height: 15% !important; padding: 4% !important">
-                <button id="chatnowbtn" onclick="ChatNowBtn()" class="poppins"
-                    style="background-color: ${color} !important; color: white !important;  width: 100% !important; padding: 10px 0px 10px 0px !important; font-size: 1rem !important; border-radius: 13px !important; border: none !important;">Chat
-                    now</button>
-                <div style="display: flex !important; display: none !important;" id="inputs">
-                    <form onsubmit="SendMessage(event)" style="display: flex !important; width: 100% !important;">
-                        <input type="text" id="msginput" placeholder="Message" style="
-                  background-color: white !important;
-                  border: none !important;
-                  width: 100% !important;
-                  border-radius: 10px !important;
-                  padding: 5% 2% 5% 2% !important;
-                  outline: none !important;
-                  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2) !important;
-                  
-                " required/>
-                        <input type="submit" value="" style="
-                  width: 50px !important;
-                  height: 43px !important;
-                  background-color: ${color} !important;
-                  background-position: center !important;
-                  background-size: 30px !important;
-                  border: 0 !important;
-                  margin-left: 3% !important;
-                  border-radius: 10px !important;
-                  background-repeat: no-repeat !important;
-                  background-image: url('https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png') !important;
-                " />
-                    </form>
-                </div>
-
-                <div id="chatend" class="poppins" style="display: none !important;">
-                    <p style="font-size: 1.125rem !important; line-height: 1.75rem !important; font-weight: 600 !important; text-align: center !important; ">Chat
-                        ended by Admin</p>
-                    <p class="poppins" style="font-size: 0.875rem !important; line-height: 1.25rem !important; text-align: center !important; ">Refresh to start to new
-                        chat</p>
-                </div>
+            
             </div>
         </div>
 
-        <button style="
-            z-index:2147483647 !important;
-          background-color: ${color} !important;
-          border: 0 !important;
-          border-radius: 100% !important;
-          height: 50px !important;
-          width: 50px !important;
-          float: right !important;
-          margin-top: 5% !important; 
-          box-shadow: 0 3px 10px rgb(0 0 0 / 0.2) !important;
-          background-position: center !important;
-          background-size: 30px !important;
-          background-repeat: no-repeat !important;
-          background-image: url('https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/512/FFFFFF/external-chat-social-media-ui-tanah-basah-glyph-tanah-basah.png') !important;
-        animation: bounce 1s infinite !important;
-        "
-        id="chatio" onclick="ChatIo()"
-        >
-            
-        </button>
-
-
-        <button style="
-          z-index:2147483647 !important;
-          background-color: ${color} !important;
-          border: 0 !important;
-          border-radius: 100% !important;
-          height: 50px !important;
-          width: 50px !important;
-          float: right !important;
-          margin-top: 5% !important;
-          box-shadow: 0 3px 10px rgb(0 0 0 / 0.2) !important;
-          display: none !important;
-          background-position: center !important;
-          background-size: 30px !important;
-          background-repeat: no-repeat !important;
-          background-image: url('https://img.icons8.com/ios-glyphs/512/FFFFFF/delete-sign.png') !important;
-          
-        "
-        id="close" onclick="CloseBtn()"
-        >
-            
-        </button>
-
     </div>
+</div>
 `
 }
-
-
-
-
-
-// New code with coustom css end 
 
 
 
@@ -426,128 +230,25 @@ let sendmsg = document.getElementById("sendmsg");
 let msginput = document.getElementById("msginput");
 
 
-function playPause() {
-    var audio = document.getElementById('audio');
-    audio.play();
+function addRecivedMessage(msg1) {
+    let onlinestatusdiv = document.getElementById("onlinestatus");
+    if(onlinestatus == "Offline"){
+        onlinestatusdiv.innerHTML = "Online";
+    }
+    let msg = document.getElementById("msg");
+    msg.innerHTML += ` <div class="w-full flex justify-start"><span class="w-auto bg-[${widgetColor}] text-white rounded-r-lg rounded-tl-lg p-2 mr-20 my-3 ml-2">${msg1}</span></div>`
+
+    msg.scrollTo(0, msg.scrollHeight);
+}
+
+function addSendeMessage(msg1) {
+    let msg = document.getElementById("msg");
+    msg.innerHTML += ` <div class="w-full  flex justify-end"><span class="w-auto bg-[${widgetColor}] text-white rounded-l-lg rounded-tr-lg p-2 ml-20 my-3 mr-2">${msg1}</span></div>`
+    msg.scrollTo(0, msg.scrollHeight);
 }
 
 
-// function addRecivedMessage(msg1) {
-//     let onlinestatusdiv = document.getElementById("onlinestatus");
-//     if(onlinestatus == "Offline"){
-//         onlinestatusdiv.innerHTML = "Online";
-//     }
-//     let msg = document.getElementById("msg");
-//     msg.innerHTML += ` <div class="w-full flex justify-start"><span class="w-auto bg-[${widgetColor}] text-white rounded-r-lg rounded-tl-lg p-2 mr-20 my-3 ml-2">${msg1}</span></div>`
 
-//     msg.scrollTo(0, msg.scrollHeight);
-// }
-
-// function addSendeMessage(msg1) {
-//     let msg = document.getElementById("msg");
-//     msg.innerHTML += ` <div class="w-full  flex justify-end"><span class="w-auto bg-[${widgetColor}] text-white rounded-l-lg rounded-tr-lg p-2 ml-20 my-3 mr-2">${msg1}</span></div>`
-//     msg.scrollTo(0, msg.scrollHeight);
-// }
-
-
-
-
-
-// function ChatIo() {
-//     let chatio = document.getElementById("chatio")
-//     let chatimg = document.getElementById("chatimg");
-//     let chat = document.getElementById("chat");
-//     let closebtn = document.getElementById("close");
-
-
-//     console.log("click chat io")
-//     chatio.classList.remove("animate-bounce");
-//     chatimg.classList.add("hidden")
-//     chatio.style.borderRadius = "10px";
-//     chatio.style.height = "80%"
-//     chatio.style.width = "25%"
-//     chat.classList.remove("hidden");
-//     closebtn.classList.remove("hidden");
-
-
-// }
-
-// function CloseBtn() {
-//     let chatio = document.getElementById("chatio")
-//     let chatimg = document.getElementById("chatimg");
-//     let chat = document.getElementById("chat");
-//     let closebtn = document.getElementById("close");
-
-
-//     closebtn.classList.add("hidden");
-//     chat.classList.add("hidden");
-//     chatio.style = "";
-//     chatimg.classList.remove("hidden")
-//     chatio.classList.add("animate-bounce");
-//     localStorage.removeItem("isKnownUser");
-//     socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::offlineuser`);
-//     socket.disconnect();
-// }
-
-// async function ChatNowBtn() {
-//     let inputs = document.getElementById("inputs");
-//     let chatnowbtn = document.getElementById("chatnowbtn");
-
-
-//     await StartNewChat();
-//     chatnowbtn.classList.add("hidden");
-//     inputs.classList.remove("hidden");
-//     // addRecivedMessage("Welcome to Chat.io 👋");
-//     // addRecivedMessage("How can i help you")
-
-// }
-
-
-
-
-// function SendMessage(event) {
-//     event.preventDefault();
-//     let msg = document.getElementById("msg");
-//     let msginput = document.getElementById("msginput");
-//     console.log(msginput.value);
-//     if (msginput.value != "") {
-//         SendMessageToApi(msginput.value);
-
-//         msginput.value = "";
-//         msg.scrollTo(0, msg.scrollHeight);
-//     }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// New code with coustom css start'
-
-async function ChatNowBtn() {
-    let inputs = document.getElementById("inputs");
-    let chatnowbtn = document.getElementById("chatnowbtn");
-
-    inputs.style.display = "flex"
-    chatnowbtn.style.display = "none";
-
-    await StartNewChat();
-
-    // chatnowbtn.classList.add("hidden");
-    // inputs.classList.remove("hidden");
-    // addRecivedMessage("Welcome to Chat.io 👋");
-    // addRecivedMessage("How can i help you")
-
-}
 
 
 function ChatIo() {
@@ -557,22 +258,17 @@ function ChatIo() {
     let closebtn = document.getElementById("close");
 
 
-    // console.log("click chat io")
-    // chatio.classList.remove("animate-bounce");
-    // chatimg.classList.add("hidden")
-    // chatio.style.borderRadius = "10px";
-    // chatio.style.height = "80%"
-    // chatio.style.width = "25%"
-    // chat.classList.remove("hidden");
-    // closebtn.classList.remove("hidden");
-
-    chat.style.display = "block";
-    chatio.style.display = "none";
-    closebtn.style.display = "block";
+    console.log("click chat io")
+    chatio.classList.remove("animate-bounce");
+    chatimg.classList.add("hidden")
+    chatio.style.borderRadius = "10px";
+    chatio.style.height = "80%"
+    chatio.style.width = "25%"
+    chat.classList.remove("hidden");
+    closebtn.classList.remove("hidden");
 
 
 }
-
 
 function CloseBtn() {
     let chatio = document.getElementById("chatio")
@@ -581,19 +277,39 @@ function CloseBtn() {
     let closebtn = document.getElementById("close");
 
 
-    // closebtn.classList.add("hidden");
-    // chat.classList.add("hidden");
-    // chatio.style = "";
-    // chatimg.classList.remove("hidden")
-    // chatio.classList.add("animate-bounce");
+    closebtn.classList.add("hidden");
+    chat.classList.add("hidden");
+    chatio.style = "";
+    chatimg.classList.remove("hidden")
+    chatio.classList.add("animate-bounce");
+    localStorage.removeItem("isKnownUser");
+    socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::offlineuser`);
+    socket.disconnect();
+}
 
-    chat.style.display = "none";
-    chatio.style.display = "block";
-    closebtn.style.display = "none";
+async function ChatNowBtn() {
+    let inputs = document.getElementById("inputs");
+    let chatnowbtn = document.getElementById("chatnowbtn");
 
-    // localStorage.removeItem("isKnownUser");
-    // socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::offlineuser`);
-    // socket.disconnect();
+   
+  
+    await StartNewChat();
+
+    inputs.style.display = "flex"
+    chatnowbtn.style.display = "none";
+
+    // chatnowbtn.classList.add("hidden");
+    // inputs.classList.remove("hidden");
+    // addRecivedMessage("Welcome to Chat.io 👋");
+    // addRecivedMessage("How can i help you")
+
+}
+
+
+
+function playPause() {
+    var audio = document.getElementById('audio');
+    audio.play();
 }
 
 
@@ -609,50 +325,6 @@ function SendMessage(event) {
         msg.scrollTo(0, msg.scrollHeight);
     }
 }
-
-
-function addRecivedMessage(msg1) {
-    let onlinestatusdiv = document.getElementById("onlinestatus");
-    if (onlinestatus == "Offline") {
-        onlinestatusdiv.innerHTML = "Online";
-    }
-    let msg = document.getElementById("msg");
-
-
-
-    msg.innerHTML += ` <div style="display: flex; justify-content: flex-start"><span style="max-width: 70%;background-color: ${widgetColor};color: white;padding: 3% 5% 3% 5%;border-radius: 8px 8px 8px 0px;margin: 5% 3% 5% 5%;">
-                ${msg1}
-    </span>
-    </div>`
-
-    msg.scrollTo(0, msg.scrollHeight);
-}
-
-function addSendeMessage(msg1) {
-    let msg = document.getElementById("msg");
-    msg.innerHTML += `<div style="display: flex; justify-content: flex-end">
-            <span style="
-        max-width: 70%;
-        background-color: ${widgetColor};
-        color: white;
-        padding: 3% 5% 3% 5%;
-        border-radius: 8px 8px 0px 8px;
-        margin: 5% 3% 5% 5%;
-      ">
-                ${msg1}
-            </span>
-        </div>`
-    msg.scrollTo(0, msg.scrollHeight);
-}
-
-
-
-
-// New code with coustom css end
-
-
-
-
 
 
 async function StartNewChat() {
@@ -761,9 +433,9 @@ async function SendMessageToApi(message) {
 
 
 if (document.currentScript.getAttribute('id') != null) {
-    console.log("run");
     propertyID = document.currentScript.getAttribute('id');
     StartChatIo(document.currentScript.getAttribute('id'));
 } else {
     alert("ID required to start chat");
 }
+

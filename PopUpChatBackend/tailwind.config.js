@@ -2,6 +2,7 @@
 export default {
   content: [],
   darkMode:"class",
+  important:true,
   theme: {
     extend: {},
   },

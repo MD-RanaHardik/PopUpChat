@@ -9,11 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { GComtext } from "../../App";
 import { getUserData } from "../../State/Actions/adminDataAction";
 import {GrMoreVertical} from "react-icons/gr"
+import { BsArrowDownCircleFill } from "react-icons/bs";
 
-export default function MessageCom({ chatdata, chatsetter }) {
+export default function MessageCom({ chatdata, chatsetter ,chatuserip,setChatUserIP}) {
 
     let [message, setMessage] = useState("")
     let [chats, setChats] = useState([]);
+    
 
     let [popupmenu, setPopUpMenu] = useState(false);
 
@@ -34,6 +36,7 @@ export default function MessageCom({ chatdata, chatsetter }) {
         }
 
     }, [chatdata])
+    
 
     socket.on((chatdata.ip != "") ? chatdata.ip : "notingtorecive", (msg) => {
        
@@ -52,11 +55,19 @@ export default function MessageCom({ chatdata, chatsetter }) {
         // var newmsg = msg.split("|||")[0] +"|||"+urlify(msg.split("|||")[1])+"|||"+msg.split("|||")[2]
 
 
-        // console.log(newmsg);
+        
+        // console.log("+++++++++++",msg.split("|||")[3]);
 
-
+        // setChatUserIP(msg.split("|||")[3]);
+        setChatUserIP(msg.split("|||")[3]);
         setChats([...chats, msg]);
         messageContainer.scrollTo(0, messageContainer.scrollHeight);
+
+        
+        
+
+
+        
 
     })
 
@@ -111,8 +122,19 @@ export default function MessageCom({ chatdata, chatsetter }) {
             <audio id="audio">
                 <source src="button-124476.mp3" type="audio/mpeg" />
             </audio>
+
+            <button onClick={()=>{console.log(chatdata)}}>test</button>
+
             <h1 className="text-2xl font-semibold mb-2 text-slate-700 dark:text-slate-300">Message </h1>
             <div className="shadow-lg relative" id="chat" >
+
+                {
+                    (chatdata.widget_id != "" && chatdata.ip != "") && <BsArrowDownCircleFill onClick={()=>{messageContainer.scrollTo(0, messageContainer.scrollHeight);}} className="absolute right-2 bottom-16 text-blue-900 dark:text-slate-600"  />
+                }
+                
+                
+
+                {/* <div className="transition-all    rounded-full bg-white drop-shadow-lg absolute right-2 bottom-16 dark:bg-slate-900 dark:ring-1 dark:ring-slate-600">bo</div> */}
 
                 {
                     (popupmenu) && <div className="transition-all p-5   rounded-lg bg-white drop-shadow-lg absolute right-2 bottom-16 dark:bg-slate-900 dark:ring-1 dark:ring-slate-600">
@@ -152,7 +174,8 @@ export default function MessageCom({ chatdata, chatsetter }) {
                    
 
                     {
-                        (chatdata.widget_id != "" && chatdata.ip != "") &&
+
+                        (chatdata.widget_id != "" && chatdata.ip != "" && chatuserip == "" ) &&
 
                         chats.map((chat, index) => {
 
@@ -163,7 +186,28 @@ export default function MessageCom({ chatdata, chatsetter }) {
                             }
                         })
 
+                        
+
                     }
+
+                    {
+
+                        (chatdata.widget_id != "" && chatdata.ip != "" && chatuserip != "" && chatuserip == chatdata.ip ) &&
+
+                        chats.map((chat, index) => {
+
+                            if (chat.split("|||")[0] == "Admin") {
+                                return <AdminChat key={index} msg={chat.split("|||")[1]} />
+                            } else {
+                                return <UserChat key={index} msg={chat.split("|||")[1]} />
+                            }
+                        })
+
+                        
+
+                    }
+
+                    
 
 
 

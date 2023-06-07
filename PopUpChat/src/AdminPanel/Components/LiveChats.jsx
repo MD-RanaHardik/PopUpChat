@@ -6,7 +6,9 @@ import { useLocation } from "react-router-dom";
 import { socket } from "../../socket";
 import { getUserData } from "../../State/Actions/adminDataAction";
 import {IoMdNotifications} from "react-icons/io"
-export default function LiveChats({ chatdata, chatsetter }) {
+
+
+export default function LiveChats({ chatdata, chatsetter ,setChatUserIP}) {
 
   const dispacher = useDispatch();
   const admindata = useSelector(state => state.adminData.data);
@@ -74,7 +76,7 @@ export default function LiveChats({ chatdata, chatsetter }) {
           (admindata.property[property_id]["Chat"] != undefined) &&
           Object.keys(admindata.property[property_id]["Chat"]).map((data, index) => {
             if (!admindata.property[property_id]["Chat"][data]["is_completed"]) {
-              return <ChatWidget key={index} chatdata={chatdata} id={index+1} ip={data} property_id={property_id} chatsetter={chatsetter} chatid={admindata.property[property_id]["Chat"][data]["_id"]} />
+              return <ChatWidget key={index} chatdata={chatdata} id={index+1} setChatUserIP={setChatUserIP} ip={data} property_id={property_id} chatsetter={chatsetter} chatid={admindata.property[property_id]["Chat"][data]["_id"]} />
             }
           }
           )
@@ -86,7 +88,7 @@ export default function LiveChats({ chatdata, chatsetter }) {
   )
 }
 
-function ChatWidget({ id, ip, chatid, chatsetter, property_id, chatdata }) {
+function ChatWidget({ id, ip, chatid, chatsetter, property_id, chatdata ,setChatUserIP}) {
   const dispacher = useDispatch();
   const userdata = useSelector(state => state.adminData);
 
@@ -95,7 +97,7 @@ function ChatWidget({ id, ip, chatid, chatsetter, property_id, chatdata }) {
 
   // console.log((ip != "") && ip);
 
-  socket.on((ip != "") ? ip : "notingtorecive", (msg) => {
+  socket.on((ip != "") ? ip : "notingtorecivedsdsd", (msg) => {
     console.log("recived msg in live chat", newmsgCount);
     if (chatdata.ip == ip) {
       setNewMessageCount(0);
@@ -131,7 +133,7 @@ function ChatWidget({ id, ip, chatid, chatsetter, property_id, chatdata }) {
 
     </div>
     <div className="col-span-1 mx-auto">
-      <button onClick={() => { setNewMessageCount(0); dispacher(getUserData(userdata.loggedin_user)); chatsetter({ ip: ip, widget_id: chatid, is_chat_started: true, property_id: property_id, tempChat: tempMsg }) }} className="h-10 bg-blue-900 text-white px-4 rounded-lg hover:bg-blue-950">Chat Now</button>
+      <button onClick={() => { setNewMessageCount(0); setChatUserIP(""); dispacher(getUserData(userdata.loggedin_user)); chatsetter({ ip: ip, widget_id: chatid, is_chat_started: true, property_id: property_id, tempChat: tempMsg }) }} className="h-10 bg-blue-900 text-white px-4 rounded-lg hover:bg-blue-950">Chat Now</button>
     </div>
 
 
