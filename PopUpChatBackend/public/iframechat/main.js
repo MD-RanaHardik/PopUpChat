@@ -147,7 +147,7 @@ function CloseBtn() {
     chatio.style.display = "block";
     closebtn.style.display = "none";
 
-    // localStorage.removeItem("isKnownUser");
+    localStorage.removeItem("isKnownUser");
     // socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::offlineuser`);
     // socket.disconnect();
 }
