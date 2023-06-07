@@ -203,6 +203,7 @@ function RenderChatPopUp(color) {
             position: relative !important;
             background-color: ${color} !important;
             width: 100% !important;
+            flex-shrink: 0 !important; 
           ">
                 <img style="padding: 2% !important; max-width: 60px !important; height: 60px!important;"
                     src="https://static.vecteezy.com/system/resources/previews/011/381/911/original/male-customer-service-3d-cartoon-avatar-portrait-png.png"
@@ -214,7 +215,7 @@ function RenderChatPopUp(color) {
                 font-size: 1.2rem !important;
                 font-weight: bold !important;
                 margin:0 !important;
-                flex-shrink: 0 !important;
+                
               ">
                         ${propertyName}
                     </p>
@@ -227,7 +228,7 @@ function RenderChatPopUp(color) {
             </div>
 
             <!-- Chat input and buttons -->
-            <div style="background-color: rgb(219 234 254) !important; padding: 4% !important; flex-shrink: 0 !important;">
+            <div style="background-color: rgb(219 234 254) !important; padding: 4% !important">
                 <button id="chatnowbtn" onclick="ChatNowBtn()" class="poppins"
                     style="background-color: ${color} !important; color: white !important;  width: 100% !important; padding: 10px 0px 10px 0px !important; font-size: 1rem !important; border-radius: 13px !important; border: none !important;">Chat
                     now</button>
