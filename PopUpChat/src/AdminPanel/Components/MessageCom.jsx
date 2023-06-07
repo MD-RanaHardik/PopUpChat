@@ -123,7 +123,7 @@ export default function MessageCom({ chatdata, chatsetter ,chatuserip,setChatUse
                 <source src="button-124476.mp3" type="audio/mpeg" />
             </audio>
 
-            <button onClick={()=>{console.log(chatdata)}}>test</button>
+        
 
             <h1 className="text-2xl font-semibold mb-2 text-slate-700 dark:text-slate-300">Message </h1>
             <div className="shadow-lg relative" id="chat" >

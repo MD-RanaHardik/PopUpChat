@@ -274,33 +274,26 @@ function RenderChatPopUp(color) {
         bottom: 4% !important;
         right: 2% !important;
       ">
-        <div style="
-            z-index:2147483647 !important;
-            display: none !important;
-          overflow: hidden !important;
-          height: 450px !important;
-          width: 300px !important;
-          box-shadow: 0 3px 10px rgb(0 0 0 / 0.2) !important;
-          border-radius: 10px !important;
-          transition: 2s ease-in-out !important;
+        <div style=" visibility: hidden !important;
+            z-index: 2147483647 !important; display: flex; overflow: hidden !important; height: 450px !important; width: 300px !important; box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 10px !important; border-radius: 10px !important; flex-direction: column;
         " id="chat">
             <div class="" style="
             display: flex !important;
             overflow: hidden !important;
             position: relative !important;
             background-color: ${color} !important;
-            height: 15% !important;
             width: 100% !important;
           ">
-                <img style="padding: 2% !important"
+                <img style="padding: 2% !important; max-width: 60px;"
                     src="https://static.vecteezy.com/system/resources/previews/011/381/911/original/male-customer-service-3d-cartoon-avatar-portrait-png.png"
                     alt="not found" />
-                <div style="padding-top: 3% !important; width: 100% !important">
+                <div style="padding-top: 3% !important; width: 100% !important; ">
                     <p class="poppins" style="
                 color: white !important;
                 padding-bottom: 1% !important;
                 font-size: 1.2rem !important;
                 font-weight: bold !important;
+                margin:0 !important;
               ">
                         ${propertyName}
                     </p>
@@ -308,12 +301,12 @@ function RenderChatPopUp(color) {
                 </div>
             </div>
 
-            <div style="overflow-y: scroll !important; height: 70% !important; background-color: white !important;" id="msg">
+            <div style="overflow-y: scroll !important;  background-color: white !important; flex-grow:1 !important;" id="msg">
                 
             </div>
 
             <!-- Chat input and buttons -->
-            <div style="background-color: rgb(219 234 254) !important; height: 15% !important; padding: 4% !important">
+            <div style="background-color: rgb(219 234 254) !important; !important; padding: 4% !important">
                 <button id="chatnowbtn" onclick="ChatNowBtn()" class="poppins"
                     style="background-color: ${color} !important; color: white !important;  width: 100% !important; padding: 10px 0px 10px 0px !important; font-size: 1rem !important; border-radius: 13px !important; border: none !important;">Chat
                     now</button>
@@ -331,7 +324,7 @@ function RenderChatPopUp(color) {
                 " required/>
                         <input type="submit" value="" style="
                   width: 50px !important;
-                  height: 43px !important;
+                  
                   background-color: ${color} !important;
                   background-position: center !important;
                   background-size: 30px !important;
@@ -355,6 +348,7 @@ function RenderChatPopUp(color) {
 
         <button style="
             z-index:2147483647 !important;
+            padding:0% !important;
           background-color: ${color} !important;
           border: 0 !important;
           border-radius: 100% !important;
@@ -377,6 +371,7 @@ function RenderChatPopUp(color) {
 
         <button style="
           z-index:2147483647 !important;
+          padding:0% !important;
           background-color: ${color} !important;
           border: 0 !important;
           border-radius: 100% !important;
@@ -566,7 +561,9 @@ function ChatIo() {
     // chat.classList.remove("hidden");
     // closebtn.classList.remove("hidden");
 
-    chat.style.display = "block";
+    // visibility: hidden !important;
+
+    chat.style.visibility = "visible";
     chatio.style.display = "none";
     closebtn.style.display = "block";
 
@@ -587,7 +584,8 @@ function CloseBtn() {
     // chatimg.classList.remove("hidden")
     // chatio.classList.add("animate-bounce");
 
-    chat.style.display = "none";
+    chat.style.visibility = "hidden";
+
     chatio.style.display = "block";
     closebtn.style.display = "none";
 
@@ -758,6 +756,9 @@ async function SendMessageToApi(message) {
 //         msg.scrollTo(0, msg.scrollHeight);
 //     }
 // })
+
+
+
 
 
 if (document.currentScript.getAttribute('id') != null) {
