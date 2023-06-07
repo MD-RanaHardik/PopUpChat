@@ -214,6 +214,7 @@ function RenderChatPopUp(color) {
                 font-size: 1.2rem !important;
                 font-weight: bold !important;
                 margin:0 !important;
+                flex-shrink: 0 !important;
               ">
                         ${propertyName}
                     </p>
@@ -226,7 +227,7 @@ function RenderChatPopUp(color) {
             </div>
 
             <!-- Chat input and buttons -->
-            <div style="background-color: rgb(219 234 254) !important; padding: 4% !important">
+            <div style="background-color: rgb(219 234 254) !important; padding: 4% !important; flex-shrink: 0 !important;">
                 <button id="chatnowbtn" onclick="ChatNowBtn()" class="poppins"
                     style="background-color: ${color} !important; color: white !important;  width: 100% !important; padding: 10px 0px 10px 0px !important; font-size: 1rem !important; border-radius: 13px !important; border: none !important;">Chat
                     now</button>
