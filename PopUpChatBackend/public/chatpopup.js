@@ -261,6 +261,141 @@ async function StartChatIo(property_ID) {
 // New code with coustom css start
 
 
+// function RenderChatPopUp(color) {
+//     body.innerHTML += `
+    
+//       <audio id="audio">
+//         <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_f5dbe8213e.mp3" type="audiompeg" >
+//         </audio>
+
+//     <div class="" style="
+//         z-index:2147483647 !important;
+//         position: fixed !important;
+//         bottom: 4% !important;
+//         right: 2% !important;
+//       ">
+//         <div style=" visibility: visible !important;
+//             z-index: 2147483647 !important; display: flex; overflow: hidden !important; height: 450px !important; width: 300px !important; box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 10px !important; border-radius: 10px !important; flex-direction: column;
+//         " id="chat">
+//             <div class="" style="
+//             display: flex !important;
+//             overflow: hidden !important;
+//             position: relative !important;
+//             background-color: ${color} !important;
+//             width: 100% !important;
+//           ">
+//                 <img style="padding: 2% !important; max-width: 80px !important;"
+//                     src="https://static.vecteezy.com/system/resources/previews/011/381/911/original/male-customer-service-3d-cartoon-avatar-portrait-png.png"
+//                     alt="not found" />
+//                 <div style="padding-top: 3% !important; width: 100% !important; ">
+//                     <p class="poppins" style="
+//                 color: white !important;
+//                 padding-bottom: 1% !important;
+//                 font-size: 1.2rem !important;
+//                 font-weight: bold !important;
+//                 margin:0 !important;
+//               ">
+//                         ${propertyName}
+//                     </p>
+//                     <p class="poppins" style="color: white !important; font-size: 0.8rem !important;" id="onlinestatus">${onlinestatus}</p>
+//                 </div>
+//             </div>
+
+//             <div style="overflow-y: scroll !important;  background-color: white !important; flex-grow:1 !important;" id="msg">
+                
+//             </div>
+
+//             <!-- Chat input and buttons -->
+//             <div style="background-color: rgb(219 234 254) !important; padding: 4% !important">
+//                 <button id="chatnowbtn" onclick="ChatNowBtn()" class="poppins"
+//                     style="background-color: ${color} !important; color: white !important;  width: 100% !important; padding: 10px 0px 10px 0px !important; font-size: 1rem !important; border-radius: 13px !important; border: none !important;">Chat
+//                     now</button>
+//                 <div style="display: flex !important; display: none !important;" id="inputs">
+//                     <form onsubmit="SendMessage(event)" style="display: flex !important; width: 100% !important;">
+//                         <input type="text" id="msginput" placeholder="Message" style="
+//                   background-color: white !important;
+//                   border: none !important;
+//                   width: 100% !important;
+//                   border-radius: 10px !important;
+//                   padding: 4% 2% 4% 2% !important;
+//                   outline: none !important;
+//                   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2) !important;
+                  
+//                 " required/>
+//                         <input type="submit" value="" style="
+//                   width: 50px !important;
+                  
+//                   background-color: ${color} !important;
+//                   background-position: center !important;
+//                   background-size: 30px !important;
+//                   border: 0 !important;
+//                   margin-left: 3% !important;
+//                   border-radius: 10px !important;
+//                   background-repeat: no-repeat !important;
+//                   background-image: url('https://img.icons8.com/ios-glyphs/100/FFFFFF/sent.png') !important;
+//                 " />
+//                     </form>
+//                 </div>
+
+//                 <div id="chatend" class="poppins" style="display: none !important;">
+//                     <p style="font-size: 1.125rem !important; line-height: 1.75rem !important; font-weight: 600 !important; text-align: center !important; ">Chat
+//                         ended by Admin</p>
+//                     <p class="poppins" style="font-size: 0.875rem !important; line-height: 1.25rem !important; text-align: center !important; ">Refresh to start to new
+//                         chat</p>
+//                 </div>
+//             </div>
+//         </div>
+
+//         <button style="
+//             z-index:2147483647 !important;
+//             padding:0% !important;
+//           background-color: ${color} !important;
+//           border: 0 !important;
+//           border-radius: 100% !important;
+//           height: 50px !important;
+//           width: 50px !important;
+//           float: right !important;
+//           margin-top: 5% !important; 
+//           box-shadow: 0 3px 10px rgb(0 0 0 / 0.2) !important;
+//           background-position: center !important;
+//           background-size: 30px !important;
+//           background-repeat: no-repeat !important;
+//           background-image: url('https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/512/FFFFFF/external-chat-social-media-ui-tanah-basah-glyph-tanah-basah.png') !important;
+//         animation: bounce 1s infinite !important;
+//         "
+//         id="chatio" onclick="ChatIo()"
+//         >
+            
+//         </button>
+
+
+//         <button style="
+//           z-index:2147483647 !important;
+//           padding:0% !important;
+//           background-color: ${color} !important;
+//           border: 0 !important;
+//           border-radius: 100% !important;
+//           height: 50px !important;
+//           width: 50px !important;
+//           float: right !important;
+//           margin-top: 5% !important;
+//           box-shadow: 0 3px 10px rgb(0 0 0 / 0.2) !important;
+//           display: none !important;
+//           background-position: center !important;
+//           background-size: 30px !important;
+//           background-repeat: no-repeat !important;
+//           background-image: url('https://img.icons8.com/ios-glyphs/512/FFFFFF/delete-sign.png') !important;
+          
+//         "
+//         id="close" onclick="CloseBtn()"
+//         >
+            
+//         </button>
+
+//     </div>
+// `
+// }
+
 function RenderChatPopUp(color) {
     body.innerHTML += `
     
@@ -274,7 +409,7 @@ function RenderChatPopUp(color) {
         bottom: 4% !important;
         right: 2% !important;
       ">
-        <div style=" visibility: hidden !important;
+        <div style="
             z-index: 2147483647 !important; display: flex; overflow: hidden !important; height: 450px !important; width: 300px !important; box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 10px !important; border-radius: 10px !important; flex-direction: column;
         " id="chat">
             <div class="" style="
@@ -284,7 +419,7 @@ function RenderChatPopUp(color) {
             background-color: ${color} !important;
             width: 100% !important;
           ">
-                <img style="padding: 2% !important; max-width: 80px !important;"
+                <img style="padding: 2% !important; max-width: 60px !important;"
                     src="https://static.vecteezy.com/system/resources/previews/011/381/911/original/male-customer-service-3d-cartoon-avatar-portrait-png.png"
                     alt="not found" />
                 <div style="padding-top: 3% !important; width: 100% !important; ">
@@ -346,51 +481,8 @@ function RenderChatPopUp(color) {
             </div>
         </div>
 
-        <button style="
-            z-index:2147483647 !important;
-            padding:0% !important;
-          background-color: ${color} !important;
-          border: 0 !important;
-          border-radius: 100% !important;
-          height: 50px !important;
-          width: 50px !important;
-          float: right !important;
-          margin-top: 5% !important; 
-          box-shadow: 0 3px 10px rgb(0 0 0 / 0.2) !important;
-          background-position: center !important;
-          background-size: 30px !important;
-          background-repeat: no-repeat !important;
-          background-image: url('https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/512/FFFFFF/external-chat-social-media-ui-tanah-basah-glyph-tanah-basah.png') !important;
-        animation: bounce 1s infinite !important;
-        "
-        id="chatio" onclick="ChatIo()"
-        >
-            
-        </button>
+        
 
-
-        <button style="
-          z-index:2147483647 !important;
-          padding:0% !important;
-          background-color: ${color} !important;
-          border: 0 !important;
-          border-radius: 100% !important;
-          height: 50px !important;
-          width: 50px !important;
-          float: right !important;
-          margin-top: 5% !important;
-          box-shadow: 0 3px 10px rgb(0 0 0 / 0.2) !important;
-          display: none !important;
-          background-position: center !important;
-          background-size: 30px !important;
-          background-repeat: no-repeat !important;
-          background-image: url('https://img.icons8.com/ios-glyphs/512/FFFFFF/delete-sign.png') !important;
-          
-        "
-        id="close" onclick="CloseBtn()"
-        >
-            
-        </button>
 
     </div>
 `
