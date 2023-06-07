@@ -284,7 +284,7 @@ function RenderChatPopUp(color) {
             background-color: ${color} !important;
             width: 100% !important;
           ">
-                <img style="padding: 2% !important; max-width: 60px;"
+                <img style="padding: 2% !important; max-width: 60px !important;"
                     src="https://static.vecteezy.com/system/resources/previews/011/381/911/original/male-customer-service-3d-cartoon-avatar-portrait-png.png"
                     alt="not found" />
                 <div style="padding-top: 3% !important; width: 100% !important; ">
@@ -317,7 +317,7 @@ function RenderChatPopUp(color) {
                   border: none !important;
                   width: 100% !important;
                   border-radius: 10px !important;
-                  padding: 5% 2% 5% 2% !important;
+                  padding: 4% 2% 4% 2% !important;
                   outline: none !important;
                   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2) !important;
                   
