@@ -15,7 +15,7 @@ async function StartChatIo(id){
 
     // let API_HOST = "http://127.0.0.1:4000";
 
-    await fetch(`${API_HOST}/client/getwidget/${property_ID}`).then((res) => res.json()).then((data) => {
+    await fetch(`${API_HOST}/client/getwidget/${id}`).then((res) => res.json()).then((data) => {
         if (data[0]["Property_status"]) {
             document.body.innerHTML +=`
                 <iframe src="https://popupchat.onrender.com/iframechat/chat.html?id=${id}" id="chat" frameborder="0" style="visibility: hidden !important; background: transparent !important; height: 480px !important; width: 310px !important;  z-index:2147483647 !important; position: fixed !important;bottom: 15% !important;right: 2% !important;"></iframe>
