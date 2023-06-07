@@ -14,11 +14,9 @@
         console.log("++++++++",data.get("id"));
         
       (function(){
-      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-      s1.async=true;
+      var s1=document.createElement("script");
       s1.setAttribute("id",data.get("id"))
       s1.src="https://popupchat.onrender.com/chatpopup.min.js"
-      
       s1.setAttribute('crossorigin','*');
       document.body.append(s1);
       })();
