@@ -49,7 +49,7 @@ document.head.innerHTML += `
 
 
 
-let API_HOST = "https://popupchat.onrender.com";
+// // let API_HOST = "https://popupchat.onrender.com";
 
 // let API_HOST = "http://127.0.0.1:4000";
 
@@ -68,93 +68,13 @@ let visitor_country = "";
 
 
 
-var socket = io(API_HOST, { autoConnect: false });
+var socket = io(API_HOST, { autoConnect: true });
 
 // https://www.trackip.net/ip?json
 
-async function GetCurruntUserIp() {
-
-    await fetch("https://jsonip.com/", {
-        mode: 'cors',
-        method: 'GET',
-    }).then((res) => res.json()).then((data) => {
-
-
-        if (localStorage.getItem("popupchatid") == null) {
-            console.log("null  ==========")
-            localStorage.setItem("popupchatid", crypto.randomUUID())
-            ipaddres = data.ip + `=${localStorage.getItem("popupchatid")}`;
-            visitor_country = data.country;
-
-
-            // socket.on("connect", () => {
-            //     console.log("coonnect  ")
-            //     if (localStorage.getItem("isKnownUser") == null) {
-            //         console.log("country ++++++++++ "+visitor_country);
-            //         socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::liveuser`);
-            //         localStorage.setItem("isKnownUser",crypto.randomUUID())
-            //     }
-
-            // });
-
-
-            socket.on("disconnect", () => {
-                console.log("disconnect ")
-                socket.emit("liveuseremit", `${visitor_country}::${ipaddres}::${propertyID}::offlineuser`);
-            });
-
-
-
-        } else {
-
-            visitor_country = data.country;
-            ipaddres = data.ip + `=${localStorage.getItem("popupchatid")}`;
-        }
-        console.log(ipaddres);
-        console.log(data.ip);
-
-
-        socket.on(ipaddres.replaceAll(".", ":"), (msg1) => {
-
-
-
-            let data = msg1.split("|||")
-            if (data[0] == "Admin") {
-
-
-                if (data[1] === `${"EndChat==" + ipaddres.replaceAll(".", ":")}`) {
-                    let inputs = document.getElementById("inputs");
-                    let chatend = document.getElementById("chatend");
-                    inputs.remove();
-                    chatend.style.display = "block";
-
-                } else {
-
-                    addRecivedMessage(data[1]);
-                }
-
-
-
-            } else {
-                addSendeMessage(data[1]);
-
-            }
-            playPause();
-
-        })
-    }).catch((e) => {
-        console.log(e);
-    })
-
-}
-
-
-
 async function StartChatIo(property_ID) {
     socket.connect();
-    console.log("called function");
-    await GetCurruntUserIp();
-
+    
     await fetch(`${API_HOST}/client/getwidget/${property_ID}`).then((res) => res.json()).then((data) => {
         // console.log(data);
         if (data[0]["Property_status"]) {
@@ -164,10 +84,42 @@ async function StartChatIo(property_ID) {
             widgetColor = data[0]["Widget"]["Widget_color"];
 
             if (localStorage.getItem("isKnownUser") == null) {
-
                 socket.emit("liveuseremit", `${visitor_country}::${ipaddres}::${propertyID}::liveuser`);
                 localStorage.setItem("isKnownUser", crypto.randomUUID())
             }
+            
+            socket.on(ipaddres.replaceAll(".", ":"), (msg1) => {
+
+                let data = msg1.split("|||")
+                if (data[0] == "Admin") {
+    
+    
+                    if (data[1] === `${"EndChat==" + ipaddres.replaceAll(".", ":")}`) {
+                        let inputs = document.getElementById("inputs");
+                        let chatend = document.getElementById("chatend");
+                        inputs.remove();
+                        chatend.style.display = "block";
+                        socket.emit("liveuseremit",`${visitor_country}::${ipaddres}::${propertyID}::offlineuser`);
+                        localStorage.removeItem("popupchatid");
+                        localStorage.removeItem("isKnownUser");
+    
+                    } else {
+    
+                        addRecivedMessage(data[1]);
+                    }
+    
+    
+    
+                } else {
+                    addSendeMessage(data[1]);
+    
+                }
+                playPause();
+    
+            })
+
+
+
 
             RenderChatPopUp(data[0]["Widget"]["Widget_color"]);
 
@@ -182,11 +134,14 @@ async function StartChatIo(property_ID) {
 
 
 function RenderChatPopUp(color) {
+    // https://cdn.pixabay.com/audio/2022/10/30/audio_f5dbe8213e.mp3
     body.innerHTML += `
+
     
-      <audio id="audio">
-        <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_f5dbe8213e.mp3" type="audiompeg" >
-        </audio>
+    <audio id="aud" >
+        <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_f5dbe8213e.mp3" type="audio/mpeg">
+  
+    </audio>
 
     <div class="" style="
         z-index:2147483647 !important;
@@ -286,22 +241,22 @@ function RenderChatPopUp(color) {
 
 
 
-let chatio = document.getElementById("chatio")
-let msg = document.getElementById("msg");
-// let chatnowbtn  = document.getElementById("chatnowbtn")
-let chat = document.getElementById("chat");
-let closebtn = document.getElementById("close");
-let chatimg = document.getElementById("chatimg");
-let chatnowbtn = document.getElementById("chatnowbtn");
-let inputs = document.getElementById("inputs");
+// let chatio = document.getElementById("chatio")
+// let msg = document.getElementById("msg");
+// // let chatnowbtn  = document.getElementById("chatnowbtn")
+// let chat = document.getElementById("chat");
+// let closebtn = document.getElementById("close");
+// let chatimg = document.getElementById("chatimg");
+// let chatnowbtn = document.getElementById("chatnowbtn");
+// let inputs = document.getElementById("inputs");
 
-let sendmsg = document.getElementById("sendmsg");
+// let sendmsg = document.getElementById("sendmsg");
 
-let msginput = document.getElementById("msginput");
+// let msginput = document.getElementById("msginput");
 
 
 function playPause() {
-    var audio = document.getElementById('audio');
+    var audio = document.getElementById('aud');
     audio.play();
 }
 
@@ -516,9 +471,11 @@ async function SendMessageToApi(message) {
 
 
 
-if (document.currentScript.getAttribute('id') != null) {
+if (document.currentScript.getAttribute('id') != null && document.currentScript.getAttribute('ip') != null && document.currentScript.getAttribute('country') != null) {
     console.log("run");
     propertyID = document.currentScript.getAttribute('id');
+    ipaddres = document.currentScript.getAttribute('ip');
+    visitor_country = document.currentScript.getAttribute('country');
     StartChatIo(document.currentScript.getAttribute('id'));
 } else {
     alert("ID required to start chat");

@@ -11,12 +11,20 @@
     
 
     <script type="text/javascript">
+
+        
+        let API_HOST = "https://popupchat.onrender.com";
+
+        // let API_HOST = "http://127.0.0.1:4000";
+
         let data = new URLSearchParams(window.location.search);
     
         (function(){
         var s1=document.createElement("script");
-        s1.setAttribute("id",data.get("id"))
-        s1.src="https://popupchat.onrender.com/iframechat/chatpopup.js"
+        s1.setAttribute("id",data.get("id"));
+        s1.setAttribute("ip",data.get("ip"));
+        s1.setAttribute("country",data.get("country"));
+        s1.src=`${API_HOST}/iframechat/chatpopup.js`
         s1.setAttribute('crossorigin','*');
         document.body.append(s1);
         })();
