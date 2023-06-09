@@ -57,7 +57,7 @@ export default function LoginPage() {
         <form onSubmit={(e)=>handleSubmitEvent(e)}>
           <input type="email" placeholder="Email" value={email} onChange={(e)=>{setEmail(e.target.value)}} className="w-full py-2 my-5 ring-1 ring-slate-300 outline-none px-3 shadow-md rounded-md" required/> 
           <input type="password" placeholder="Password" value={password} onChange={(e)=>{setPassword(e.target.value)}}  className="w-full py-2 ring-1 ring-slate-300 outline-none px-3 shadow-md rounded-md" required/>
-          <Link to={"/forgotpassword"}><button className="text-slate-600 my-2 float-right">Forgot password ?</button></Link>
+          <Link to={"/forgotpassword"} className="text-slate-600 my-2 float-right">Forgot password ?</Link>
           <input type="submit" className="bg-blue-700 py-2 text-white w-full font-bold rounded-md shadow-lg mt-6 hover:bg-blue-800" value="Login" /> 
         </form>
         <p className="text-center mt-4">Don&apos;t have an account? <Link to={"/signup"}><button className="text-blue-500 font-semibold">Signup</button></Link></p>

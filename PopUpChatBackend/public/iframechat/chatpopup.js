@@ -68,6 +68,7 @@ let visitor_country = "";
 
 
 
+
 var socket = io(API_HOST, { autoConnect: true });
 
 // https://www.trackip.net/ip?json
@@ -104,14 +105,32 @@ async function StartChatIo(property_ID) {
                         localStorage.removeItem("isKnownUser");
     
                     } else {
+                        try {
+                            let obj = JSON.parse(data[1]);
+
+                            addRecivedReplyedMessage(obj["Msg"],obj["Rto"],data[2]);
+
+                        } catch (error) {
+                            
+                            addRecivedMessage(data[1],data[2]);
+                        }
     
-                        addRecivedMessage(data[1]);
+                        
                     }
     
     
     
                 } else {
-                    addSendeMessage(data[1]);
+                    try {
+                        let obj = JSON.parse(data[1]);
+
+                        addSendeReplyedMessage(obj["Msg"],obj["Rto"],data[2]);
+
+                    } catch (error) {
+                       
+                        addSendeMessage(data[1],data[2]);
+                    }
+                    
     
                 }
                 playPause();
@@ -187,9 +206,19 @@ function RenderChatPopUp(color) {
                 <button id="chatnowbtn" onclick="ChatNowBtn()" class="poppins"
                     style="background-color: ${color} !important; color: white !important;  width: 100% !important; padding: 10px 0px 10px 0px !important; font-size: 1rem !important; border-radius: 13px !important; border: none !important;">Chat
                     now</button>
-                <div style="display: flex !important; display: none !important;" id="inputs">
-                    <form onsubmit="SendMessage(event)" style="display: flex !important; width: 100% !important;">
-                        <input type="text" id="msginput" placeholder="Message" style="
+                <div style="display: flex !important; flex-wrap: wrap !important; display: none !important;" id="inputs">
+
+                <div id="replymsgdiv" style="display:none !important; transition:opacity 0.5s linear !important; flex-grow: 1 !important; padding: 10px !important; background-color: white !important; border-radius: 10px !important;  box-shadow: rgba(141, 136, 136, 0.30) 0px 3px 10px !important; margin-bottom:10px !important; opacity: 0.5 !important;">
+                    <button onclick="ToggleReplyButton()" style="height: 23px !important ; width: 23px !important; float: right !important; cursor: pointer !important; background-size: 20px !important; border: 0 !important; background-color: transparent !important; background-position: center !important; background-image: url('https://img.icons8.com/ios/100/multiply.png') !important;"></button>
+                    <p id="replyToMessage"></p>
+                </div>
+
+            
+                    <form onsubmit="SendMessage(event)" style="display: flex !important;  width: 100% !important;">
+
+                
+                
+                <input type="text" id="msginput" placeholder="Message" style="
                   background-color: white !important;
                   border: none !important;
                   width: 100% !important;
@@ -260,6 +289,31 @@ function playPause() {
     audio.play();
 }
 
+function ToggleReplyButton(){
+    console.log("first")
+
+    let replymsgdiv = document.getElementById("replymsgdiv");
+    let replyToMessage = document.getElementById("replyToMessage");
+
+    if(replymsgdiv.style.display == "block"){
+        console.log("block");
+        replyToMessage.innerText = "";
+        replymsgdiv.style.display = "none";
+    }else{
+        console.log("none");
+        replymsgdiv.style.display = "block";
+    }
+    
+}
+
+function replyToMessage(msg){
+    let replyToMessage = document.getElementById("replyToMessage");
+    let replymsgdiv = document.getElementById("replymsgdiv");
+
+    replyToMessage.innerText = msg;
+    replymsgdiv.style.display = "block";
+}
+
 
 
 
@@ -323,15 +377,30 @@ function SendMessage(event) {
     let msginput = document.getElementById("msginput");
     console.log(msginput.value);
     if (msginput.value != "") {
-        SendMessageToApi(msginput.value);
+        let tempmsg="";
+        let replyToMessage = document.getElementById("replyToMessage");
+        let replymsgdiv = document.getElementById("replymsgdiv");
+
+        
+       
+        if(replymsgdiv.style.display == "block" && replyToMessage.innerHTML != ""){
+            tempmsg = `{"Rto":"${replyToMessage.innerHTML}","Msg":"${msginput.value}"}`
+        }else{
+            tempmsg = msginput.value;
+        }
+        
+        SendMessageToApi(encodeURIComponent(tempmsg));
 
         msginput.value = "";
+        replyToMessage.innerHTML = "";
+        replymsgdiv.style.display = "none";
         msg.scrollTo(0, msg.scrollHeight);
     }
 }
 
 
-function addRecivedMessage(msg1) {
+function addRecivedMessage(msg1,date) {
+    let D = new Date(date);
     let onlinestatusdiv = document.getElementById("onlinestatus");
     if (onlinestatus == "Offline") {
         onlinestatusdiv.innerHTML = "Online";
@@ -340,17 +409,68 @@ function addRecivedMessage(msg1) {
 
 
 
-    msg.innerHTML += ` <div style="display: flex; justify-content: flex-start"><span style="max-width: 70%;background-color: ${widgetColor};color: white;padding: 3% 5% 3% 5%;border-radius: 8px 8px 8px 0px;margin: 5% 3% 5% 5%;">
+    msg.innerHTML += ` <div style="display: flex; justify-content: flex-start">
+    
+    <span style="max-width: 70%;background-color: ${widgetColor};color: white;padding: 3% 5% 3% 5%;border-radius: 8px 8px 8px 0px;margin: 5% 3% 5% 5%;">
                 ${msg1}
+    <div style="
+                text-align: right !important;
+                margin-top: 0.2rem !important;
+                margin-right: 0.25rem !important;
+                width: 100% !important; 
+                color: white !important;
+                font-size: xx-small !important;
+            ">${D.getHours()}:${D.getMinutes()}  ${D.getHours()>= 12 ? "PM" : "AM"}</div>
     </span>
+    <button onclick="replyToMessage('${msg1}')" style="height: 14px !important ; flex-shrink: 0 !important; width: 14px !important; margin: auto 0 auto 0;  float: right !important; cursor: pointer !important; background-size: 13px !important; border: 0 !important; background-color: transparent !important; background-position: center !important; background-image: url('https://img.icons8.com/ios-filled/50/737373/reply-arrow.png') !important; background-repeat: no-repeat;"></button>
     </div>`
 
     msg.scrollTo(0, msg.scrollHeight);
 }
 
-function addSendeMessage(msg1) {
+function addRecivedReplyedMessage(msg1,replymsg,date) {
+    let D = new Date(date);
+    let onlinestatusdiv = document.getElementById("onlinestatus");
+    if (onlinestatus == "Offline") {
+        onlinestatusdiv.innerHTML = "Online";
+    }
+    let msg = document.getElementById("msg");
+
+
+
+    msg.innerHTML += `<div style="display: flex  !important; justify-content: flex-start !important;">
+        <span style="max-width: 70% !important;background-color: ${widgetColor} !important; color: white !important;padding: 3% 5% 3% 5% !important;border-radius: 8px 8px 8px 0px !important;margin: 5% 3% 5% 5% !important;">
+            <div style="
+            box-shadow: rgba(141, 136, 136, 0.74) 0px 3px 10px !important;
+            
+            padding: 0.5rem 0.5rem 0.5rem 0.5rem !important; 
+            margin-bottom: 0.4rem !important; 
+            background-color: ${widgetColor} !important; 
+            border-radius: 0.5rem !important; 
+            border-left: 2px solid white !important;
+            opacity: 0.7 !important; ">${replymsg}</div>
+            ${msg1}
+            <div style="
+                text-align: right !important;
+                margin-top: 0.2rem !important;
+                margin-right: 0.25rem !important;
+                width: 100% !important; 
+                color: white !important;
+                font-size: xx-small !important;
+            ">${D.getHours()}:${D.getMinutes()}  ${D.getHours()>= 12 ? "PM" : "AM"}</div>
+        </span>
+        <button onclick="replyToMessage('${msg1}')" style="height: 14px !important ; flex-shrink: 0 !important; width: 14px !important; margin: auto 0 auto 0;  float: right !important; cursor: pointer !important; background-size: 13px !important; border: 0 !important; background-color: transparent !important; background-position: center !important; background-image: url('https://img.icons8.com/ios-filled/50/737373/reply-arrow.png') !important; background-repeat: no-repeat;"></button>
+    </div>`
+
+    msg.scrollTo(0, msg.scrollHeight);
+}
+
+
+function addSendeMessage(msg1,date) {
+    let D = new Date(date);
     let msg = document.getElementById("msg");
     msg.innerHTML += `<div style="display: flex; justify-content: flex-end">
+    <button onclick="replyToMessage('${msg1}')" style="height: 14px !important ; flex-shrink: 0 !important; width: 14px !important; margin: auto 0 auto 0;  float: right !important; cursor: pointer !important; background-size: 13px !important; border: 0 !important; background-color: transparent !important; background-position: center !important; background-image: url('https://img.icons8.com/ios-filled/50/737373/reply-arrow.png') !important; background-repeat: no-repeat;"></button>
             <span style="
         max-width: 70%;
         background-color: ${widgetColor};
@@ -360,6 +480,52 @@ function addSendeMessage(msg1) {
         margin: 5% 3% 5% 5%;
       ">
                 ${msg1}
+                <div style="
+                text-align: right !important;
+                margin-top: 0.2rem !important;
+                margin-right: 0.25rem !important;
+                width: 100% !important; 
+                color: white !important;
+                font-size: xx-small !important;
+            ">${D.getHours()}:${D.getMinutes()}  ${D.getHours()>= 12 ? "PM" : "AM"}</div>
+            </span>
+        </div>`
+    msg.scrollTo(0, msg.scrollHeight);
+}
+
+function addSendeReplyedMessage(msg1,replymsg,date) {
+    let D = new Date(date);
+    let msg = document.getElementById("msg");
+    msg.innerHTML += `<div style="display: flex !important; justify-content: flex-end !important;">
+            
+    <button onclick="replyToMessage('${msg1}')" style="height: 14px !important ; flex-shrink: 0 !important; width: 14px !important; margin: auto 0 auto 0;  float: right !important; cursor: pointer !important; background-size: 13px !important; border: 0 !important; background-color: transparent !important; background-position: center !important; background-image: url('https://img.icons8.com/ios-filled/50/737373/reply-arrow.png') !important; background-repeat: no-repeat;"></button>
+
+            <span style="
+                max-width: 70% !important; 
+                background-color: ${widgetColor} !important;
+                color: white !important;
+                padding: 3% 5% 3% 5% !important;
+                border-radius: 8px 8px 0px 8px !important;
+                margin: 5% 3% 5% 5% !important;
+            ">
+            <div style="
+            box-shadow: rgba(141, 136, 136, 0.74) 0px 3px 10px !important;
+            
+            padding: 0.5rem 0.5rem 0.5rem 0.5rem !important; 
+            margin-bottom: 0.4rem !important; 
+            background-color: ${widgetColor} !important; 
+            border-radius: 0.5rem !important; 
+            border-left: 2px solid white !important;
+            opacity: 0.7 !important; ">${replymsg}</div>
+                ${msg1}
+            <div style="
+                    text-align: right !important;
+                    margin-top: 0.2rem !important;
+                    margin-right: 0.25rem !important;
+                    width: 100% !important; 
+                    color: white !important;
+                    font-size: xx-small !important;
+                ">${D.getHours()}:${D.getMinutes()}  ${D.getHours()>= 12 ? "PM" : "AM"}</div>
             </span>
         </div>`
     msg.scrollTo(0, msg.scrollHeight);
@@ -385,9 +551,31 @@ async function StartNewChat() {
             widget_ID = data["_id"];
             data["ChatData"].map((msg) => {
                 if (msg.split("|||")[0] == "User") {
-                    addSendeMessage(msg.split("|||")[1]);
+                    
+                    try {
+                        let obj = JSON.parse(msg.split("|||")[1]);
+
+                        addSendeReplyedMessage(obj["Msg"],obj["Rto"],msg.split("|||")[2]);
+
+                    } catch (error) {
+                        
+                        addSendeMessage(msg.split("|||")[1],msg.split("|||")[2]);
+                    }
+
+                    
                 } else {
-                    addRecivedMessage(msg.split("|||")[1])
+
+                    try {
+                        let obj = JSON.parse(msg.split("|||")[1]);
+
+                        addRecivedReplyedMessage(obj["Msg"],obj["Rto"],msg.split("|||")[2]);
+
+                    } catch (error) {
+                        
+                        addRecivedMessage(msg.split("|||")[1],msg.split("|||")[2])
+                    }
+
+                    
                 }
                
             });
@@ -405,7 +593,7 @@ async function StartNewChat() {
 }
 
 async function SendMessageToApi(message) {
-    await fetch(`${API_HOST}/client//message/User/${widget_ID}/${ipaddres.replaceAll(".", ":")}/${message}`).then((res) => res.json()).then((data) => {
+    await fetch(`${API_HOST}/client/message/User/${widget_ID}/${ipaddres.replaceAll(".", ":")}/${message}`).then((res) => res.json()).then((data) => {
         
     })
 }

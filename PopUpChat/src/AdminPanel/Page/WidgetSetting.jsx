@@ -106,9 +106,9 @@ export default function WidgetSetting() {
                     <div className="flex flex-col">
                         <p className="font-medium text-blue-900 dark:text-slate-300">Widget Code</p>
 
-                        <code className="bg-blue-100 ring-1 rounded-md text-blue-900 p-5 my-2 dark:ring-slate-600 dark:text-slate-300 dark:bg-slate-800">
+                        <code className="bg-blue-100 ring-1 rounded-md text-blue-900 p-5 my-2 dark:ring-slate-600 dark:text-slate-300 dark:bg-slate-800 break-all">
 
-                            &lt;script type=&quot;text/javascript&quot; src=&quot;https://popupchat.onrender.com/chatpopup.min.js&quot; id=&quot;{urldata.get("property_id")}&quot; &gt;
+                            &lt;script type=&quot;text/javascript&quot; src=&quot;https://popupchat.onrender.com/iframechat/main.js&quot; id=&quot;{urldata.get("property_id")}&quot; &gt;
                             &lt;/script&gt;
 
                         </code>
