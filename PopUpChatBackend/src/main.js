@@ -50,8 +50,30 @@ io.on('connection', (socket) => {
   socket.on("disconnect",()=>{
     console.log("user disconnected");
   })
+
+ 
+
+  socket.on("test1",(msg)=>{
+    console.log(msg)
+    socket.emit("test1",msg);
+  })
+
+
+
   // socket.emit("test","Hello  how are you");
 });
+
+
+
+app.get("/test1",(req,res)=>{
+  io.emit("test1","test1");
+  res.send("Hello");
+})
+
+app.get("/test2",(req,res)=>{
+  io.emit("test2","test2");
+  res.send("Hello");
+})
 
 
 

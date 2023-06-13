@@ -24,6 +24,7 @@ clientChatRoutes.get("/message/:user/:widget_ID/:user_IP/:message",async(req,res
     let data = await NewMessageChat(req.params.user_IP,req.params.widget_ID,req.params.message,req.params.user);
     let newmessage = `${req.params.user}|||${req.params.message}|||${new Date()}|||${req.params.user_IP}`;
     io.emit(req.params.user_IP,newmessage);
+    io.emit(`${req.params.user_IP}::tempmsg`,newmessage);
     res.json(data)
 })
 

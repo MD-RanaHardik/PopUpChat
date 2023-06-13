@@ -97,13 +97,16 @@ function ChatWidget({ id, ip, chatid, chatsetter, property_id, chatdata ,setChat
 
   // console.log((ip != "") && ip);
 
-  socket.on((ip != "") ? ip : "notingtorecivedsdsd", (msg) => {
-    console.log("recived msg in live chat", newmsgCount);
+  socket.on((ip != "") ? `${ip}::tempmsg` : "notingtorecivedsdsd", (msg) => {
+    // console.log("recived msg in live chat", newmsgCount);
     if (chatdata.ip == ip) {
+      
       setNewMessageCount(0);
-      console.log("same same");
+      setTempMessage([]);
+      
     } else {
       if (msg.split("|||")[0] != "Admin") {
+        console.log("in live chat ",msg)
         setTempMessage([...tempMsg, msg]);
         setNewMessageCount(newmsgCount + 1);
       }
@@ -133,7 +136,7 @@ function ChatWidget({ id, ip, chatid, chatsetter, property_id, chatdata ,setChat
 
     </div>
     <div className="col-span-1 mx-auto">
-      <button onClick={() => { setNewMessageCount(0); setChatUserIP(""); dispacher(getUserData(userdata.loggedin_user)); chatsetter({ ip: ip, widget_id: chatid, is_chat_started: true, property_id: property_id, tempChat: tempMsg }) }} className="h-10 bg-blue-900 text-white px-4 rounded-lg hover:bg-blue-950">Chat Now</button>
+      <button onClick={() => {socket.off(chatdata.ip); setNewMessageCount(0); setChatUserIP(""); dispacher(getUserData(userdata.loggedin_user)); chatsetter({ ip: ip, widget_id: chatid, is_chat_started: true, property_id: property_id, tempChat: tempMsg }); setTempMessage([]); }} className="h-10 bg-blue-900 text-white px-4 rounded-lg hover:bg-blue-950">Chat Now</button>
     </div>
 
 

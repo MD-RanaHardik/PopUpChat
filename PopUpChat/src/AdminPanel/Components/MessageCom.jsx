@@ -10,7 +10,7 @@ import { GComtext } from "../../App";
 import { getUserData } from "../../State/Actions/adminDataAction";
 import { GrMoreVertical } from "react-icons/gr";
 import { BsArrowDownCircleFill, BsFillEmojiSmileFill } from "react-icons/bs";
-import {RxCross2} from "react-icons/rx"
+import { RxCross2 } from "react-icons/rx"
 import EmojiPicker from "emoji-picker-react";
 import { MdReply } from "react-icons/md";
 
@@ -26,7 +26,9 @@ export default function MessageCom({
   let [popupmenu, setPopUpMenu] = useState(false);
   let [showemoji, setShowEmoji] = useState(false);
 
-  let [replyToMsg,setReplyToMsg] = useState("");
+  let [replyToMsg, setReplyToMsg] = useState("");
+
+  let [tempbool,setBool] = useState(false);
 
   let messageContainer = document.getElementById("msg");
 
@@ -37,53 +39,46 @@ export default function MessageCom({
   const showMessage = useContext(GComtext);
 
   useEffect(() => {
-    if ((admindata.data.property != undefined) & (chatdata.property_id != "")) {
+    if ((admindata.data.property != undefined) && (chatdata.property_id != "")) {
+      
       setChats(
         admindata.data.property[chatdata.property_id]["Chat"][chatdata.ip][
           "ChatData"
-        ]
+          ]
+      
+        
       );
       setChats((chat) => [...chat, ...chatdata.tempChat]);
+      
     }
+
+
   }, [chatdata]);
 
+
+
   socket.on(chatdata.ip != "" ? chatdata.ip : "notingtorecive", (msg) => {
+    console.log("in message",msg)
     playPause();
-    console.log(msg);
-
-    // function urlify(text) {
-    //     var urlRegex = /(https?:\/\/[^\s]+)/g;
-    //     return text.replace(urlRegex, function(url) {
-    //       return '<a href="' + url + '">' + url + '</a>';
-    //     })
-    //     // or alternatively
-    //     // return text.replace(urlRegex, '<a href="$1">$1</a>')
-    //   }
-
-    // var newmsg = msg.split("|||")[0] +"|||"+urlify(msg.split("|||")[1])+"|||"+msg.split("|||")[2]
-
-    // console.log("+++++++++++",msg.split("|||")[3]);
-
-    // setChatUserIP(msg.split("|||")[3]);
     setChatUserIP(msg.split("|||")[3]);
     setChats([...chats, msg]);
     messageContainer.scrollTo(0, messageContainer.scrollHeight);
   });
 
+  
   async function handleSendMessageEvent(msg = null) {
     if (message != "" || msg != null) {
 
-      let modifiedmsg= "";
+      let modifiedmsg = "";
 
-      if(replyToMsg != ""){
+      if (replyToMsg != "") {
         modifiedmsg = `{"Rto":"${replyToMsg}","Msg":"${message}"}`;
-      }else{
+      } else {
         modifiedmsg = message;
       }
 
       let response = await axios.get(
-        `${API_HOST}/client/message/Admin/${chatdata.widget_id}/${
-          chatdata.ip
+        `${API_HOST}/client/message/Admin/${chatdata.widget_id}/${chatdata.ip
         }/${msg == null ? encodeURIComponent(modifiedmsg) : msg}`
       );
 
@@ -135,7 +130,7 @@ export default function MessageCom({
         Message{" "}
       </h1>
       <div className="shadow-lg relative" id="chat">
-        {showemoji && <div className="absolute dark:bg-slate-800 w-full"><EmojiPicker  height={"370px"} width={"100%"}  theme="dark" emojiStyle="" onEmojiClick={(emoji)=>{setMessage(message += emoji.emoji)}} /> </div>}
+        {showemoji && <div className="absolute dark:bg-slate-800 w-full"><EmojiPicker height={"370px"} width={"100%"} theme="dark" emojiStyle="" onEmojiClick={(emoji) => { setMessage(message += emoji.emoji) }} /> </div>}
 
         {chatdata.widget_id != "" && chatdata.ip != "" && (
           <BsArrowDownCircleFill
@@ -200,27 +195,30 @@ export default function MessageCom({
         >
           {chatdata.widget_id != "" &&
             chatdata.ip != "" &&
-            chatuserip == "" &&
             chats.map((chat, index) => {
               if (chat.split("|||")[0] == "Admin") {
-                return <AdminChat key={index}  setReplyToMsg={setReplyToMsg} msg={chat.split("|||")[1]} date={chat.split("|||")[2]} />;
+                return <AdminChat key={crypto.randomUUID()} setReplyToMsg={setReplyToMsg} msg={chat.split("|||")[1]} date={chat.split("|||")[2]} />;
               } else {
-                return <UserChat key={index} setReplyToMsg={setReplyToMsg} msg={chat.split("|||")[1]}  date={chat.split("|||")[2]}/>;
+                return <UserChat key={crypto.randomUUID()} setReplyToMsg={setReplyToMsg} msg={chat.split("|||")[1]} date={chat.split("|||")[2]} />;
               }
             })}
 
-          {chatdata.widget_id != "" &&
+          
+
+      
+
+          {/* {chatdata.widget_id != "" &&
             chatdata.ip != "" &&
             chatuserip != "" &&
             chatuserip == chatdata.ip &&
             chats.map((chat, index) => {
               if (chat.split("|||")[0] == "Admin") {
-               
+
                 return <AdminChat key={index} setReplyToMsg={setReplyToMsg} msg={chat.split("|||")[1]} date={chat.split("|||")[2]} />;
               } else {
                 return <UserChat key={index} setReplyToMsg={setReplyToMsg} msg={chat.split("|||")[1]} date={chat.split("|||")[2]} />;
               }
-            })}
+            })} */}
 
           {/* <div className="flex justify-start">
                         <div className=" bg-blue-900 text-white rounded-r-lg rounded-tl-lg p-2 mr-20 my-3 ml-2">Hello</div>
@@ -248,20 +246,20 @@ export default function MessageCom({
         </div>
         <div className="p-2  bottom-0 w-full bg-blue-100 dark:bg-slate-700">
           {
-            (replyToMsg != "") && <div className="break-all transition-all duration-500 ease-in-out bg-slate-800 rounded-lg p-3 mb-3 border-l-2 border-slate-300 dark:text-slate-300">
-            <RxCross2 onClick={()=>{setReplyToMsg("")}} className="h-6 w-6 cursor-pointer text-blue-900 dark:text-slate-300 float-right" />
-            {replyToMsg}
-          </div>
+            (replyToMsg != "") && <div className="break-all transition-all duration-500 ease-in-out bg-white dark:bg-slate-800 rounded-lg p-3 mb-3 border-l-2 border-slate-300 dark:text-slate-300">
+              <RxCross2 onClick={() => { setReplyToMsg("") }} className="h-6 w-6 cursor-pointer text-blue-900 dark:text-slate-300 float-right" />
+              {replyToMsg}
+            </div>
           }
-          
+
           {chatdata.widget_id != "" && chatdata.ip != "" ? (
             <div className="flex w-full " id="inputs">
               <div className="flex bg-white rounded-lg overflow-hidden ring-1 ring-slate-100 outline-none dark:ring-slate-600 dark:text-slate-300 dark:bg-slate-800">
-                <BsFillEmojiSmileFill onClick={()=>{setShowEmoji(!showemoji)}}  className="h-6 w-6 cursor-pointer text-blue-900 dark:text-slate-300 my-auto mx-1.5" />
+                <BsFillEmojiSmileFill onClick={() => { setShowEmoji(!showemoji) }} className="h-6 w-6 cursor-pointer text-blue-900 dark:text-slate-300 my-auto mx-1.5" />
                 <input
                   type="text"
                   value={message}
-                  onFocus={()=>{(showemoji) && setShowEmoji(false)}}
+                  onFocus={() => { (showemoji) && setShowEmoji(false) }}
                   onKeyDown={(e) => {
                     SendMessageOnEnter(e);
                   }}
@@ -309,63 +307,63 @@ export default function MessageCom({
   );
 }
 
-function UserChat({ msg,date,setReplyToMsg }) {
+function UserChat({ msg, date, setReplyToMsg }) {
   let D = new Date(date);
-  let [replyed,setReplayed] = useState(false);
-  let [newmessge,setNewMessage] = useState("");
-  let [replymsssage,setReplyMessage] = useState("");
+  let [replyed, setReplayed] = useState(false);
+  let [newmessge, setNewMessage] = useState("");
+  let [replymsssage, setReplyMessage] = useState("");
 
-  useEffect(()=>{
+  useEffect(() => {
     try {
       let data = JSON.parse(msg);
-      setReplyMessage(data["Rto"]); 
+      setReplyMessage(data["Rto"]);
       setNewMessage(data["Msg"]);
-      
+
       setReplayed(true);
     } catch (error) {
       setNewMessage(msg);
     }
-  },[])
+  }, [])
 
   return (
     <div className="flex justify-start  ">
       <div className=" bg-blue-900  break-all text-white rounded-r-lg rounded-tl-lg p-2   my-3 ml-2">
         {replyed && <div className=" bg-blue-800 opacity-50 mb-1 border-l-2 border-blue-300 p-2 rounded-lg">{replymsssage}</div>}
         {newmessge}
-        <span className="float-right text-[9px] w-full break-keep ml-3 text-slate-300">{`${D.getHours()}:${D.getMinutes()} ${D.getHours()>= 12 ? "PM" : "AM"}`}</span>
+        <span className="float-right text-[9px] w-full break-keep ml-3 text-slate-300">{`${D.getHours()}:${D.getMinutes()} ${D.getHours() >= 12 ? "PM" : "AM"}`}</span>
 
       </div>
-      <MdReply onClick={()=>{setReplyToMsg(newmessge)}} className="ml-3 h-4 w-4 shrink-0 cursor-pointer text-blue-900 dark:text-slate-300 my-auto mr-20" />
+      <MdReply onClick={() => { setReplyToMsg(newmessge) }} className="ml-3 h-4 w-4 shrink-0 cursor-pointer text-blue-900 dark:text-slate-300 my-auto mr-20" />
     </div>
   );
 }
 
-function AdminChat({ msg ,date,setReplyToMsg}) {
+function AdminChat({ msg, date, setReplyToMsg }) {
   let D = new Date(date);
-  let [replyed,setReplayed] = useState(false);
-  let [newmessge,setNewMessage] = useState("");
-  let [replymsssage,setReplyMessage] = useState("");
+  let [replyed, setReplayed] = useState(false);
+  let [newmessge, setNewMessage] = useState("");
+  let [replymsssage, setReplyMessage] = useState("");
 
-  useEffect(()=>{
+  useEffect(() => {
     try {
       let data = JSON.parse(msg);
-      setReplyMessage(data["Rto"]); 
+      setReplyMessage(data["Rto"]);
       setNewMessage(data["Msg"]);
-      
+
       setReplayed(true);
     } catch (error) {
       setNewMessage(msg);
     }
-  },[])
+  }, [])
 
   return (
     <div className="flex justify-end  ">
-      <MdReply onClick={()=>{setReplyToMsg(newmessge)}} className="mr-3 h-4 w-4 shrink-0 cursor-pointer text-blue-900 dark:text-slate-300 my-auto ml-20 " />
-      
+      <MdReply onClick={() => { setReplyToMsg(newmessge) }} className="mr-3 h-4 w-4 shrink-0 cursor-pointer text-blue-900 dark:text-slate-300 my-auto ml-20 " />
+
       <div className="w-auto break-all bg-blue-900 text-white rounded-l-lg rounded-tr-lg p-2  my-3 mr-2">
         {replyed && <div className="bg-blue-800 border-l-2 opacity-50  border-blue-300 mb-1  p-2 rounded-lg">{replymsssage}</div>}
         {newmessge}
-        <span className="float-right w-full text-[9px] ml-3 break-keep  text-slate-300">{`${D.getHours()}:${D.getMinutes()}  ${D.getHours()>= 12 ? "PM" : "AM"}`}</span>
+        <span className="float-right w-full text-[9px] ml-3 break-keep  text-slate-300">{`${D.getHours()}:${D.getMinutes()}  ${D.getHours() >= 12 ? "PM" : "AM"}`}</span>
       </div>
     </div>
   );

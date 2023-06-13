@@ -41,12 +41,12 @@ function App() {
 
   function onEnter(pageToRedirect,defaultPage) {
     const isLoggedIn = sessionStorage.getItem('loginSession');
-    console.log(isLoggedIn);
+    
     if (isLoggedIn != null) {
-      console.log("first")
+      
       return <Navigate to={pageToRedirect} replace />
     }else{
-      console.log(isLoggedIn,"sdsdsds");
+      
       return defaultPage
     }
   }
